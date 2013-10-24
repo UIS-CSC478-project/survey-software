@@ -7,6 +7,8 @@
 
 package surveysoftware;
 
+import java.util.ArrayList;
+
 /**
  *  
    Interface that will hold the methods required by the class that 
@@ -22,19 +24,36 @@ public interface db_interface {
 	/* Check for the presence of an existing survey database.*/
 	boolean check4Db();
 	
-	/* Create a new survey database if the check4Db returns false. */
+	/* Create a new survey database with tables if the check4Db returns false. */
 	void createDb();
 	
-	/* Add a new survey to the Survey table. */
-	void addNewSurvey();
+	/* Add a new survey name to the Survey table. */
+	void addNewSurvey(String mysurveyname);
 	
 	/* Add a new question plus its possible answers to the tables SurveyQuestions
 	 * and Answers.
+	 * 
+	 * numanswers is the number of possible answers that a user can choose from.
+	 * 
+	 * questionanswer arraylist is broken down as follows:
+	 * questionanswer[1] = survey id
+	 * questionanswer[2] = question text
+	 * questionanswer [3] = question number (used to sort questions later)
+	 * questionanswer [4][6][8][10] = answer letter
+	 * questionansswer [5][7][9][11] = answer text
 	 */
-	void addNewQuestionWithAnswer();
+	void addNewQuestionWithAnswer(ArrayList questionanswer, int numanswers);
 	
+	/* Not active yet at this time.  Will use to track respondents.*/
 	void addNewRespondent();
 	
+	/* Add results from users taking survey to the Answers table*/
 	void addResults();
+	
+	/* Returns a list of all the Survey names created at the time it's called */
+	String getSurveyNames();
+	
+	/* Returns a list of all Survey questions for a given Survey id*/
+	String getSurveyQuestions();
 	
 }
