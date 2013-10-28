@@ -51,9 +51,11 @@ public interface db_interface {
 	void addResults();
 	
 	/* Returns a list of all the Survey names created at the time it's called */
-	String getSurveyNames();
+	ArrayList getSurveyNames();
 	
 	/* Returns a list of all Survey questions for a given Survey id*/
-	String getSurveyQuestions();
+	ArrayList getSurveyQuestions(int surveyID);
+	
+	int getNumQuestions(int surveyID);
 	
 }

@@ -31,35 +31,37 @@ public class survey_main {
 	
 	public static void main(String[] args) {
 		boolean dbExists;
-		//survey_db mydb = new survey_db();
-		int numanswers = 4;
-				
+		
+		survey_actions mysurvey = new survey_actions();
+		mysurvey.addNewSurvey("survey1");
+		
+		ArrayList questionanswer = new ArrayList();
+		questionanswer.add(mysurvey.getSurveyID("survey1"));
+		questionanswer.add("why");
+		questionanswer.add(null);
+		questionanswer.add('a');
+		questionanswer.add("answer a");
 
-//		
-//		ArrayList questionanswer = new ArrayList();
-//		questionanswer.add(mydb.getSurveyID(newsurvey));
-//		questionanswer.add("why");
-//		questionanswer.add(null);
-//		questionanswer.add('a');
-//		questionanswer.add("answer a");
-//
-//		questionanswer.add('b');
-//		questionanswer.add("answer b");
-//		questionanswer.add('c');
-//		questionanswer.add("answer c");
-//		questionanswer.add('d');
-//		questionanswer.add("answer d");
-//		
-//		mydb.addNewQuestionWithAnswer(questionanswer, numanswers);
+		questionanswer.add('b');
+		questionanswer.add("answer b");
+		questionanswer.add('c');
+		questionanswer.add("answer c");
+		questionanswer.add('d');
+		questionanswer.add("answer d");
+		
+		mysurvey.addNewQuestionWithAnswer(questionanswer, 4);
+		ArrayList surveynames;
+		surveynames = mysurvey.getSurveyNames();
+		mysurvey.getSurveyQuestions("survey1");
 		
 		//creating thread 
-		SwingUtilities.invokeLater(new Runnable()
-		{ 
-			public void run(){ 
-				JavaSwing1 obj=new JavaSwing1(); 
-				obj.display(); 
-				} 
-			}); 
+//		SwingUtilities.invokeLater(new Runnable()
+//		{ 
+//			public void run(){ 
+//				JavaSwing1 obj=new JavaSwing1(); 
+//				obj.display(); 
+//				} 
+//			}); 
 	} // END MAIN
 } //END SURVEY_MAIN
 	
@@ -78,40 +80,59 @@ public class survey_main {
 			jfrm.setLayout(new FlowLayout());
 			jfrm.setVisible(true);
 			
-			field = new JTextField("Enter Survey Name", 20);
+			field = new JTextField("Name", 20);
 			Container content = jfrm.getContentPane();
 			JButton button1 = new JButton("SubmitSurveyName");
 			content.add(button1);
 			button1.addActionListener(this);
 			jfrm.add(field);
 			
-			numanswers = new JTextField("How many answers to the question", 1);
+			// The question number for that question
+			questionnumber = new JTextField(1);
+			jfrm.add(questionnumber);
+			
+			// Number of possible answers 
+			numanswers = new JTextField(1);
 			jfrm.add(numanswers);
 			
-			qfield = new JTextField("Enter Survey question", 70);
+			//Question text field
+			qfield = new JTextField(70);
 			jfrm.add(qfield);
-			afield = new JTextField("Enter Letter or Number", 1);
+			
+			// First letter text field
+			afield = new JTextField(1);
 			jfrm.add(afield);
-			afieldtext = new JTextField("Enter Text Answer", 20);
+			// First text for the letter text field
+			afieldtext = new JTextField(20);
 			jfrm.add(afieldtext);
-			bfield = new JTextField("Enter Letter or Number", 1);
+			
+			// Second letter text field
+			bfield = new JTextField(1);
 			jfrm.add(bfield);
-			bfieldtext = new JTextField("Enter Text Answer", 20);
+			// Secod text for the letter text field
+			bfieldtext = new JTextField(20);
 			jfrm.add(bfieldtext);
-			cfield = new JTextField("Enter Letter or Number", 1);
+			
+			// Third letter text field
+			cfield = new JTextField(1);
 			jfrm.add(cfield);
-			cfieldtext = new JTextField("Enter Text Answer", 20);
+			// Third text for the letter text field
+			cfieldtext = new JTextField(20);
 			jfrm.add(cfieldtext);
 			
-			dfield = new JTextField("Enter Letter or Number", 1);
+			// Fourth letter text field
+			dfield = new JTextField(1);
 			jfrm.add(dfield);
-			dfieldtext = new JTextField("Enter Text Answer", 20);
+			// Fourth text for the letter text field
+			dfieldtext = new JTextField(20);
 			jfrm.add(dfieldtext);
 			
 			//content = jfrm.getContentPane();
 			JButton button2 = new JButton("Submit Survey Question");
 			content.add(button2);
 			button2.addActionListener(this);
+			
+			//question field w/ answers
 			
 		
 		
@@ -131,30 +152,65 @@ public class survey_main {
 
 		
 			public void button1ActionPerformed(ActionEvent e) {
-				e.getActionCommand();
-				System.out.println("action is " + e.toString());
+				e.getActionCommand();				
 				String name = field.getText();	
-				mysurvey.addNewSurvey(name);
-				questionanswer.add(name);
+				if(name == " " || name == null){
+					JOptionPane.showMessageDialog(null, "Enter a survey name");
+				}
+
+				try{
+					mysurvey.addNewSurvey(name);
+					questionanswer.add(name);
+				}
+				catch ( Exception exc ) {
+				//	System.err.println( e.getClass().getName() + ": " + exc.getMessage() );
+					JOptionPane.showMessageDialog(null, exc.getMessage());
+			    }
+				//}
 			}
 			
 			public void button2ActionPerformed(ActionEvent e) {
 				/* questionanswer[1] = survey id
-		 * questionanswer[2] = question text
-		 * questionanswer [3] = question number (used to sort questions later)
-		 * questionanswer [4][6][8][10] = answer letter
-		 * questionansswer [5][7][9][11] = answer text
-		 */
+				 * questionanswer[2] = question text
+				 * questionanswer [3] = question number (used to sort questions later)
+				 * questionanswer [4][6][8][10] = answer letter
+				 * questionansswer [5][7][9][11] = answer text
+				 */
+				
 				e.getActionCommand();
-				System.out.println("action is " + e.toString());
 				ArrayList questionanswer = new ArrayList();
-				String name = qfield.getText();
-				questionanswer.add(qfield);
+				
+				questionanswer.add(1);//mysurvey.getSurveyID("survey1"));
+				
+				String questiontext = qfield.getText();
+				questionanswer.add(questiontext);
+				
+				int qnum = Integer.parseInt(questionnumber.getText());
+				questionanswer.add(qnum);
+
 				int num = Integer.parseInt(numanswers.getText());
-				questionanswer.add(num);
+				
 				String a = afield.getText();
 				questionanswer.add(a);
-				String a_text = afieldtext.getName()
+				String a_text = afieldtext.getText();
+				questionanswer.add(a_text);
+
+				a = bfield.getText();
+				questionanswer.add(a);
+				String b_text = bfieldtext.getText();
+				questionanswer.add(b_text);
+				
+				a = cfield.getText();
+				questionanswer.add(a);
+				String c_text = cfieldtext.getText();
+				questionanswer.add(c_text);
+				
+				a = dfield.getText();
+				questionanswer.add(a);
+				String d_text = dfieldtext.getText();
+				questionanswer.add(d_text);
+				
+				mysurvey.addNewQuestionWithAnswer(questionanswer, num);
 				
 			}
 	
@@ -177,6 +233,7 @@ public class survey_main {
 			private javax.swing.JTextField cfieldtext;
 			private javax.swing.JTextField dfieldtext;
 			private javax.swing.JTextField numanswers;
+			private javax.swing.JTextField questionnumber;
 	}
 	
 

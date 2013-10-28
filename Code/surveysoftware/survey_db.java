@@ -12,6 +12,8 @@ import java.util.ArrayList;
 //import ____________;
 //import ____________;
 
+import javax.swing.JOptionPane;
+
 /**
  *  
   	Class that implements the db_interface.db interface.  This class
@@ -30,8 +32,8 @@ public class survey_db implements db_interface{
 	
 	/* Check for the presence of an existing survey database.*/
 	public boolean check4Db(){
-		final File f = new File("surveydatabase.db");
-		//System.out.println("F exists = " + f.exists());
+		File f = new File("surveydatabase.db");
+		System.out.println("F exists = " + f.exists());
 		return f.exists();	
 	}
 	
@@ -84,9 +86,16 @@ public class survey_db implements db_interface{
 		    c.close();
 		} catch (Exception e){
 			System.err.println(e.getClass().getName() + ": " + e.getMessage() );
-			System.exit(0);
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
-		System.out.println("Opened database successfully");
+		finally {
+	    	try{
+	  	      stmt.close();
+		      c.close();
+	    	} catch (Exception e) {
+	    		JOptionPane.showMessageDialog(null, e.getMessage());
+	    	}
+	    }
 	}
 	
 	/* Add a new survey name to the Survey table. */
@@ -97,20 +106,25 @@ public class survey_db implements db_interface{
 	      Class.forName("org.sqlite.JDBC");
 	      c = DriverManager.getConnection("jdbc:sqlite:surveydatabase.db");
 	      c.setAutoCommit(false);
-	      System.out.println("Opened database successfully");
-
 	      stmt = c.createStatement();
 	      String sql = "INSERT INTO SURVEY (SURVEY_NAME) " +
 	                   "VALUES ('" + mysurveyname + "')"; 
 	      stmt.executeUpdate(sql);
-	      stmt.close();
 	      c.commit();
+	      stmt.close();
 	      c.close();
 	    } catch ( Exception e ) {
 	      System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-	      System.exit(0);
+	      JOptionPane.showMessageDialog(null, "Survey name is blank or " + e.getMessage() + ".");
+	    } finally {
+	    	try{
+	  	      stmt.close();
+		      c.close();
+	    	} catch (Exception e) {
+	    		JOptionPane.showMessageDialog(null, e.getMessage());
+	    	}
 	    }
-	    System.out.println("Add new Survey Record created successfully");
+
 	}
 	
 	 /*
@@ -131,8 +145,6 @@ public class survey_db implements db_interface{
 	      Class.forName("org.sqlite.JDBC");
 	      c = DriverManager.getConnection("jdbc:sqlite:surveydatabase.db");
 	      c.setAutoCommit(false);
-	      System.out.println("Opened database successfully");
-
 	      
 	      stmt = c.createStatement();
 	      
@@ -143,7 +155,6 @@ public class survey_db implements db_interface{
 	          + "'" + questionanswer.get(1) + "',"
 	          + "'" + questionanswer.get(2) + "')";
 	      stmt.executeUpdate(sql);
-	      
 	      rs = stmt.executeQuery("SELECT Q_ID FROM SURVEY_QUESTION WHERE QUESTION_TEXT = '" + questionanswer.get(1) + "'");
 	      int newqid = rs.getInt(1); 
 	      
@@ -162,7 +173,6 @@ public class survey_db implements db_interface{
 	          + "'" + questionanswer.get(5) + "',"
 	          + "'" + questionanswer.get(6) + "')";
     	  stmt.executeUpdate(sql);  
-	      
 	      if(numanswers > 2){
 	    	  sql = "INSERT INTO POSSIBLE_ANSWERS "
 		          + "(FK_Q_ID, LETTER, ANSWER_TEXT) "
@@ -171,7 +181,6 @@ public class survey_db implements db_interface{
 		          + "'" + questionanswer.get(7) + "',"
 		          + "'" + questionanswer.get(8) + "')";
 	    	  stmt.executeUpdate(sql);  
-
 	      }
 	      
 	      if(numanswers >3){
@@ -184,17 +193,21 @@ public class survey_db implements db_interface{
 	    	  stmt.executeUpdate(sql);  
 	      }
 	      
-	      System.out.println("newqid = " + newqid);
 	      c.commit();
 	      rs.close();
 	      stmt.close();
 	      c.close();
 	    } catch ( Exception e ) {
 	      System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-	      System.exit(0);
-	    }
-	    System.out.println("Records created successfully");
-		
+	      JOptionPane.showMessageDialog(null, e.getMessage());
+	    } finally {
+	    	try{
+		  	      stmt.close();
+			      c.close();
+		    	} catch (Exception e) {
+		    		JOptionPane.showMessageDialog(null, e.getMessage());
+		    	}
+		    }
 	}
 	
 	/* Will add new respondent information to the respondent table 
@@ -209,19 +222,145 @@ public class survey_db implements db_interface{
 	}
 	
 	public void deleteDB(){
-		final File f = new File("surveydatabase.db");
+		File f = new File("surveydatabase.db");
 		f.delete();
 	}
 	
-	public String getSurveyNames(){
+	public ArrayList getSurveyNames(){
+		ArrayList surveyNames = new ArrayList();
 		
-		return "string";
+		Connection c = null;
+	    Statement stmt = null;
+	    ResultSet rs = null;
+
+	    try {
+	      Class.forName("org.sqlite.JDBC");
+	      c = DriverManager.getConnection("jdbc:sqlite:surveydatabase.db");;
+	      stmt = c.createStatement();
+	      rs = stmt.executeQuery( "SELECT SURVEY_NAME FROM SURVEY;" );
+	      
+	      while(rs.next()){
+	    	   surveyNames.add(rs.getString("SURVEY_NAME"));
+	    	}
+	      
+	      rs.close();
+	      stmt.close();
+	      c.close();
+	      
+	      
+	    } catch ( Exception e ) {
+	      System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+	      JOptionPane.showMessageDialog(null, e.getMessage());
+	    } finally {
+	    	try{
+	    		  rs.close();
+		  	      stmt.close();
+			      c.close();
+			      
+		    	} catch (Exception e) {
+		    		JOptionPane.showMessageDialog(null, e.getMessage());
+		    		
+		    	}
+		  }
+		return surveyNames;
 	}
 	
-	public String getSurveyQuestions(){
+	public int getNumQuestions(int surveyID){
+		int numquestions = 0;
 		
-		return "string";
+		Connection c2 = null;
+	    Statement stmt2 = null;
+	    ResultSet rs2 = null;
+
+	    try {
+	      Class.forName("org.sqlite.JDBC");
+	      c2 = DriverManager.getConnection("jdbc:sqlite:surveydatabase.db");
+	      stmt2 = c2.createStatement();
+	      rs2 = stmt2.executeQuery( "SELECT COUNT(*) FROM SURVEY_QUESTION WHERE FK_S_ID = " + surveyID + ";" );
+	      numquestions = rs2.getInt(1);
+	      rs2.close();
+	      stmt2.close();
+	      c2.close();    
+	      
+	    } catch ( Exception e ) {
+	      System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+	      JOptionPane.showMessageDialog(null, e.getMessage());
+	    } finally {
+	    	try{
+	    		  rs2.close();
+		  	      stmt2.close();
+			      c2.close();
+			      
+		    	} catch (Exception e) {
+		    		JOptionPane.showMessageDialog(null, e.getMessage());
+		    		
+		    	}
+		  }
+		return numquestions;		
 	}
+	
+	public ArrayList getSurveyQuestions(int surveyID){
+		//int numofquestions = this.getNumQuestions(surveyID);
+		Connection c = null;
+	    Statement stmt = null;
+	    ResultSet rsQuestions = null;
+	    ResultSet rsAnswers = null;
+		ArrayList myLists = new ArrayList();
+		
+		String myAnswer = null;
+		
+	    try {
+		      Class.forName("org.sqlite.JDBC");
+		      c = DriverManager.getConnection("jdbc:sqlite:surveydatabase.db");
+		      stmt = c.createStatement();
+		      System.out.println("about to get questions");
+		      rsQuestions = stmt.executeQuery( "SELECT Q_ID, QUESTION_TEXT FROM SURVEY_QUESTION WHERE SURVEY_QUESTION.FK_S_ID = '1';");
+		      
+		      		      
+		      int counter = 0;
+		      while (rsQuestions.next()) {
+		    	  	ArrayList tempArray = new ArrayList();
+		            int id = rsQuestions.getInt("Q_ID");
+		            String questionStr = rsQuestions.getString("QUESTION_TEXT");
+		            System.out.println("quid: " + id + "\t text: " + questionStr);
+		            
+		            tempArray.add(id);
+		            tempArray.add(questionStr);
+		            
+		            System.out.println("about to get answers");
+		            rsAnswers = stmt.executeQuery( "SELECT ANSWER_TEXT FROM POSSIBLE_ANSWERS WHERE POSSIBLE_ANSWERS.FK_Q_ID = '" + id + "';");
+				    while (rsAnswers.next()){
+				    	String answer = rsAnswers.getString("ANSWER_TEXT");
+				    	System.out.println("answer is: " + answer);
+				    	tempArray.add(answer);
+				    }
+		            
+		         myLists.add(tempArray);   
+		            
+		            
+		      }
+		            
+		      stmt.close();
+		      c.close();   
+		      
+		    } catch ( Exception e ) {
+		      System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+		      JOptionPane.showMessageDialog(null, e.getClass().getName() + ": " + e.getMessage());
+		    } finally {
+		    	try{
+			  	      stmt.close();
+				      c.close();
+			    	} catch (Exception e) {
+			    		JOptionPane.showMessageDialog(null, e.getMessage());
+			    	}
+			    }
+	    
+		    return myLists;
+			
+		}
+		
+		
+
 	
 	/* Takes the name of the survey and returns the survey id from the database*/
 	public int getSurveyID(String newsurvey){
@@ -232,7 +371,6 @@ public class survey_db implements db_interface{
 	    try {
 	      Class.forName("org.sqlite.JDBC");
 	      c = DriverManager.getConnection("jdbc:sqlite:surveydatabase.db");
-	      c.setAutoCommit(false);
 	      stmt = c.createStatement();
 	      rs = stmt.executeQuery( "SELECT S_ID FROM SURVEY WHERE SURVEY_NAME = '" + newsurvey + "'" );
 	      sid = rs.getInt(1); 
@@ -243,10 +381,79 @@ public class survey_db implements db_interface{
 	      
 	    } catch ( Exception e ) {
 	      System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-	      System.exit(0);
-	    }
+	      JOptionPane.showMessageDialog(null, e.getMessage());
+	    } finally {
+	    	try{
+		  	      stmt.close();
+			      c.close();
+		    	} catch (Exception e) {
+		    		JOptionPane.showMessageDialog(null, e.getMessage());
+		    	}
+		    }
 	    
 	    return sid;
 	}
 
+	
+	public boolean checkUniqueSurveyName(String name){
+		boolean sameName = false;
+
+		Connection c = null;
+	    Statement stmt = null;
+	    ResultSet rs = null;
+	    String dbName;
+	    
+	    try {
+	      Class.forName("org.sqlite.JDBC");
+	      c = DriverManager.getConnection("jdbc:sqlite:surveydatabase.db");
+//	      c.setAutoCommit(false);
+	      stmt = c.createStatement();
+	      rs = stmt.executeQuery( "SELECT NAME FROM SURVEY" );
+	      
+	    //  dbName = rs.getInt(1); 
+	      
+	      
+	      
+	      rs.close();
+	      stmt.close();
+	      c.close();
+	      
+	      
+	    } catch ( Exception e ) {
+	      System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+	      JOptionPane.showMessageDialog(null, e.getMessage());
+	    } finally {
+	    	try{
+		  	      stmt.close();
+			      c.close();
+		    	} catch (Exception e) {
+		    		JOptionPane.showMessageDialog(null, e.getMessage());
+		    	}
+		    }
+
+	    
+		
+		
+		
+		return sameName;
+	}
+	
+	public int getResultSetNumRows(ResultSet rs){
+		int count = 0;
+		try {
+			while ( rs.next() )  
+			{  
+			    // Process the row.  
+			    count++;  
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  
+		   
+		
+		return count;
+		
+	}
+	
 } // END SURVEY_DB

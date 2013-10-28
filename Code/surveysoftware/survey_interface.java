@@ -27,7 +27,7 @@ public interface survey_interface {
 	void addResults();
 	
 	/* Returns a list of all Survey questions for a given Survey id*/
-	String getSurveyQuestions();
+	ArrayList getSurveyQuestions(String surveyname);
 	
 }
 

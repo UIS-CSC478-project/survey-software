@@ -11,13 +11,15 @@ public class survey_actions implements survey_interface{
 		dbExists = mydb.check4Db();
 		
 		//DELETE THE NEXT 4 LINES BEFORE GOING LIVE
-		if (dbExists){
-			mydb.deleteDB();
-		}
-		dbExists = mydb.check4Db();
+//		if (dbExists){
+//			System.out.println(" delete the old DB");
+//			mydb.deleteDB();
+//		}
+//		dbExists = mydb.check4Db();
 		//////////////////////////////////////////
 		
 		if (!dbExists){
+			System.out.println("make a new DB");
 			mydb.createDb();
 		}
 	}
@@ -29,8 +31,7 @@ public class survey_actions implements survey_interface{
 	
 	/* Collects the questions and answers and calls the database function to add them to the database. */
 	public void addNewQuestionWithAnswer(ArrayList questionanswer, int numanswers){
-		addNewQuestionWithAnswer(questionanswer, numanswers);
-		
+		mydb.addNewQuestionWithAnswer(questionanswer, numanswers);
 	}
 	
 	/* Not active yet at this time.  Will use to collect respondent information.*/
@@ -43,9 +44,23 @@ public class survey_actions implements survey_interface{
 		
 	}
 	
+	public int getSurveyID(String surveyname){
+		return mydb.getSurveyID(surveyname);
+		
+	}
+	
 	/* Returns a list of all Survey questions for a given Survey id*/
-	public String getSurveyQuestions(){
-		String temp = "temp";
-		return temp;
+	public ArrayList getSurveyQuestions(String surveyname){
+		ArrayList test = mydb.getSurveyQuestions(mydb.getSurveyID(surveyname));
+		return test;
 	}	
+	
+	public boolean checkUniqueSurveyName(String name){
+		return mydb.checkUniqueSurveyName(name);
+	}
+	
+	public ArrayList getSurveyNames(){
+		return mydb.getSurveyNames();
+	}
+	
 }
