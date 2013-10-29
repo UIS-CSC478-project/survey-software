@@ -58,7 +58,7 @@ public class survey_db implements db_interface{
             	"(Q_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
             	" FK_S_ID INTEGER NOT NULL," +
             	" QUESTION_TEXT TEXT NOT NULL," +
-            	" QUESTION_NUMBER INT," +
+            	" QUESTION_ANSWER TEXT," +
             	" FOREIGN KEY (FK_S_ID) REFERENCES SURVEY(S_ID))"; 
 			stmt.executeUpdate(sql);
 			
@@ -149,7 +149,7 @@ public class survey_db implements db_interface{
 	      stmt = c.createStatement();
 	      
 	      String sql = "INSERT INTO SURVEY_QUESTION  " 
-	          + "(FK_S_ID, QUESTION_TEXT, QUESTION_NUMBER) "
+	          + "(FK_S_ID, QUESTION_TEXT, QUESTION_ANSWER) "
 	          + "VALUES "
 	          + "('" + questionanswer.get(0)   + "',"
 	          + "'" + questionanswer.get(1) + "',"

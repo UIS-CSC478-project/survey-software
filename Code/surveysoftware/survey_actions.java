@@ -1,4 +1,4 @@
-package surveysoftware;
+                                                                                   package surveysoftware;
 
 import java.util.ArrayList;
 
@@ -11,11 +11,11 @@ public class survey_actions implements survey_interface{
 		dbExists = mydb.check4Db();
 		
 		//DELETE THE NEXT 4 LINES BEFORE GOING LIVE
-//		if (dbExists){
-//			System.out.println(" delete the old DB");
-//			mydb.deleteDB();
-//		}
-//		dbExists = mydb.check4Db();
+		if (dbExists){
+			System.out.println(" delete the old DB");
+			mydb.deleteDB();
+		}
+		dbExists = mydb.check4Db();
 		//////////////////////////////////////////
 		
 		if (!dbExists){
@@ -61,6 +61,11 @@ public class survey_actions implements survey_interface{
 	
 	public ArrayList getSurveyNames(){
 		return mydb.getSurveyNames();
+	}
+	
+	public void addSurveyAnswers(){
+		
+		
 	}
 	
 }
