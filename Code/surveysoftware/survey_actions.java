@@ -11,11 +11,11 @@ public class survey_actions implements survey_interface{
 		dbExists = mydb.check4Db();
 		
 		//DELETE THE NEXT 4 LINES BEFORE GOING LIVE
-		if (dbExists){
-			System.out.println(" delete the old DB");
-			mydb.deleteDB();
-		}
-		dbExists = mydb.check4Db();
+//		if (dbExists){
+//			System.out.println(" delete the old DB");
+//			mydb.deleteDB();
+//		}
+//		dbExists = mydb.check4Db();
 		//////////////////////////////////////////
 		
 		if (!dbExists){
@@ -39,9 +39,22 @@ public class survey_actions implements survey_interface{
 		
 	}
 	
-	/* Collect results from users taking survey and send to the database function*/
-	public void addResults(){
-		
+	/* Collect results from users taking survey and send to the database function.
+	 * This one is for one letter result with no additional text
+	 * */
+	public void addResults(int surveyID, int quesID, String answer){
+		//in the action performed will be a line like 
+		// mysurvey.addNewSurvey(surveyName.getText());
+		mydb.addResults(quesID, answer);		
+	}
+	
+	/* Collect results from users taking survey and send to the database function.
+	 * This one is for one letter result with additional text
+	 * */
+	public void addResults(int surveyID, int quesID, String answer, String other){
+		//in the action performed will be a line like 
+		// mysurvey.addNewSurvey(surveyName.getText());
+		mydb.addResults(quesID, answer, other);		
 	}
 	
 	public int getSurveyID(String surveyname){
@@ -59,13 +72,30 @@ public class survey_actions implements survey_interface{
 		return mydb.checkUniqueSurveyName(name);
 	}
 	
-	public ArrayList getSurveyNames(){
-		return mydb.getSurveyNames();
+	public String[] getSurveyNames(){
+		ArrayList surveyNames = mydb.getSurveyNames();
+		String[] surveyNameArray = new String[surveyNames.size()];
+		surveyNameArray = (String[]) surveyNames.toArray(surveyNameArray);
+		return surveyNameArray;
 	}
 	
 	public void addSurveyAnswers(){
 		
 		
+	}
+	
+	public boolean survey_exists(String surveyName){
+		System.out.println("in survey_exists");
+		boolean match = false;
+		ArrayList allNames = mydb.getSurveyNames();
+		for(Object item : allNames ){
+			System.out.println("item is: " + (String)item);
+			if (surveyName.equals((String)item)){
+				System.out.println("survey name in db: " + item);
+				match = true;
+			}
+		}
+		return match;
 	}
 	
 }

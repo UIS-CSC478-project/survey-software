@@ -115,7 +115,7 @@ public class survey_db implements db_interface{
 	      c.close();
 	    } catch ( Exception e ) {
 	      System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-	      JOptionPane.showMessageDialog(null, "Survey name is blank or " + e.getMessage() + ".");
+	      JOptionPane.showMessageDialog(null, "Called from survey_db: Survey name is blank or " + e.getMessage() + ".");
 	    } finally {
 	    	try{
 	  	      stmt.close();
@@ -217,9 +217,90 @@ public class survey_db implements db_interface{
 		
 	}
 	
-	
-	public void addResults(){
+	/* Input results from survey_actions into database.
+	 * This one is for one letter result with no additional text.
+	 * */
+	public void addResults(int quesID, String answer){
+		//in the action performed will be a line like 
+		// mysurvey.addNewSurvey(surveyName.getText());
+		Connection c = null;
+	    Statement stmt = null;
+	    ResultSet rs = null;
+	    try {
+	      Class.forName("org.sqlite.JDBC");
+	      c = DriverManager.getConnection("jdbc:sqlite:surveydatabase.db");
+	      c.setAutoCommit(false);
+	      stmt = c.createStatement();
+	      
+	      String sql = "INSERT INTO ANSWERS " 
+	          + "(FK_Q_ID, FK_PA_ID) "
+	          + "VALUES "
+	          + "('" + quesID   + "',"
+	          + "'" + answer + "')";
+	      
+	      stmt.executeUpdate(sql);
+	      
+	      c.commit();
+	      rs.close();
+	      stmt.close();
+	      c.close();
+	    } catch ( Exception e ) {
+	      System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+	      JOptionPane.showMessageDialog(null, e.getMessage());
+	    } finally {
+	    	try{
+		  	      stmt.close();
+			      c.close();
+		    	} catch (Exception e) {
+		    		JOptionPane.showMessageDialog(null, e.getMessage());
+		    	}
+		    }
 	}
+	
+	
+	/* Input results from survey_actions into database.
+	 * This one is for a letter result with additional text.
+	 * */
+	public void addResults(int quesID, String answer, String other){
+		//in the action performed will be a line like 
+		// mysurvey.addNewSurvey(surveyName.getText());
+		Connection c = null;
+	    Statement stmt = null;
+	    ResultSet rs = null;
+	    try {
+	      Class.forName("org.sqlite.JDBC");
+	      c = DriverManager.getConnection("jdbc:sqlite:surveydatabase.db");
+	      c.setAutoCommit(false);
+	      stmt = c.createStatement();
+	      
+	      String sql = "INSERT INTO ANSWERS " 
+	          + "(FK_Q_ID, FK_PA_ID, OTHER_RESP) "
+	          + "VALUES "
+	          + "('" + quesID   + "',"
+	          + "'" + answer + "',"
+	          + "'" + other + "')";
+	      
+	      stmt.executeUpdate(sql);
+	      
+	      c.commit();
+	      rs.close();
+	      stmt.close();
+	      c.close();
+	    } catch ( Exception e ) {
+	      System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+	      JOptionPane.showMessageDialog(null, e.getMessage());
+	    } finally {
+	    	try{
+		  	      stmt.close();
+			      c.close();
+		    	} catch (Exception e) {
+		    		JOptionPane.showMessageDialog(null, e.getMessage());
+		    	}
+		    }
+	}	
+	
+	
+	
 	
 	public void deleteDB(){
 		File f = new File("surveydatabase.db");
@@ -336,8 +417,6 @@ public class survey_db implements db_interface{
 				    }
 		            
 		         myLists.add(tempArray);   
-		            
-		            
 		      }
 		            
 		      stmt.close();
@@ -438,6 +517,7 @@ public class survey_db implements db_interface{
 		return sameName;
 	}
 	
+	/* Determine the number of rows that are in a Result Set*/
 	public int getResultSetNumRows(ResultSet rs){
 		int count = 0;
 		try {
@@ -450,10 +530,8 @@ public class survey_db implements db_interface{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}  
-		   
-		
 		return count;
-		
 	}
 	
+
 } // END SURVEY_DB

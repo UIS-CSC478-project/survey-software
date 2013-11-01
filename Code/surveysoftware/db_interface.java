@@ -48,7 +48,7 @@ public interface db_interface {
 	void addNewRespondent();
 	
 	/* Add results from users taking survey to the Answers table*/
-	void addResults();
+	void addResults(int quesID, String answer);
 	
 	/* Returns a list of all the Survey names created at the time it's called */
 	ArrayList getSurveyNames();
