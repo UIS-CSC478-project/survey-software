@@ -22,6 +22,8 @@ public class SurveyGUI extends JFrame {
 	private JTextArea surveyName, Question, quesA, quesB, quesC, quesD, corAns;
 	survey_actions mysurvey = new survey_actions();
 	
+	//test
+	
 	public SurveyGUI() {
 		//initGUI();
 	}
