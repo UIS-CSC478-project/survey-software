@@ -1,14 +1,10 @@
 package surveysoftware;
 import java.awt.*;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
 import java.awt.Font;
-
 import javax.swing.JButton;
-
 import java.awt.event.*;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
