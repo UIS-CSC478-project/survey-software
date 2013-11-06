@@ -10,7 +10,8 @@ public class SurvRef extends JFrame {
 	private JLabel lblChooseSurveyFrom;
 	private JComboBox comboBox;
 	
-	public SurvRef() 
+	public SurvRef()   //This GUI allows user to choose a survey
+			   //and then choose to review or give the survey
 	{
 		//initGUI();
 	}
@@ -38,7 +39,7 @@ public void initGUI()
 	btnGiveSurvey.setBounds(214, 119, 113, 23);
 	getContentPane().add(btnGiveSurvey);
 	
-	btnMainMenu = new JButton("Main Menu");
+	btnMainMenu = new JButton("Main Menu");  //button directs program back to main menu
 	btnMainMenu.setBounds(156, 171, 106, 23);
 	getContentPane().add(btnMainMenu);
 	
@@ -52,14 +53,14 @@ public void initGUI()
 		public void actionPerformed(ActionEvent e) 
 		{
 			
-			if(e.getSource()==btnReviewSurvey)
+			if(e.getSource()==btnReviewSurvey)  //Review selected survey
 			{
 				setVisible(false);
 				SurvRev svr = new SurvRev();
 				svr.initGUI();
 				
 			}
-			else if(e.getSource()==btnGiveSurvey)
+			else if(e.getSource()==btnGiveSurvey) //Give selected survey
 			{
 				setVisible(false);
 				SurvGive svg = new SurvGive();	
@@ -67,7 +68,7 @@ public void initGUI()
 			}
 			else
 			{
-				setVisible(false);
+				setVisible(false);  //back to main menu
 				Choice chc = new Choice();
 				chc.initChoice();
 			}
