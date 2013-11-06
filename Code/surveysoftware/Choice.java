@@ -24,26 +24,26 @@ public class Choice extends JFrame {
 		//initChoice();
 	}
 		
-	public void initChoice()
+	public void initChoice() //Program initiates menu asking user what to do
 	{
 		setResizable(false); //user not allowed to resize
 		setSize(506,284);
 		getContentPane().setLayout(null);
 		
-		lblChoose = new JLabel("Where to Begin");
+		lblChoose = new JLabel("Where to Begin"); //Title of window
 		lblChoose.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblChoose.setBounds(182, 37, 104, 23);
 		getContentPane().add(lblChoose);
 		
-		btnCreateSurvey = new JButton("Create Survey");
+		btnCreateSurvey = new JButton("Create Survey"); //Button moves program to create a survey
 		btnCreateSurvey.setBounds(37, 95, 138, 23);
 		getContentPane().add(btnCreateSurvey);
 		
-		btnLookUpSurvey = new JButton("Look up Survey");
+		btnLookUpSurvey = new JButton("Look up Survey"); //Button for user to look up survey to review
 		btnLookUpSurvey.setBounds(182, 95, 138, 23);
 		getContentPane().add(btnLookUpSurvey);
 		
-		btnGiveSurvey = new JButton("Give Survey");
+		btnGiveSurvey = new JButton("Give Survey"); //Button to give survey to public
 		btnGiveSurvey.setBounds(326, 95, 132, 23);
 		getContentPane().add(btnGiveSurvey);
 		
@@ -69,14 +69,14 @@ public class Choice extends JFrame {
 				sgi.initGUI();
 				sgi.setVisible(true);
 			}
-			else if(e.getSource()==btnLookUpSurvey)
+			else if(e.getSource()==btnLookUpSurvey) //look up survey
 			{
 				setVisible(false);
 				SurvRef svr = new SurvRef();
 				svr.initGUI();
 				svr.setVisible(true);
 			}
-			else if(e.getSource()==btnGiveSurvey)
+			else if(e.getSource()==btnGiveSurvey) //Give survey
 			{
 				setVisible(false);
 				SurvGive sgv = new SurvGive();
@@ -85,7 +85,7 @@ public class Choice extends JFrame {
 			}
 			else
 			{
-				JOptionPane.showMessageDialog(null, "error");
+				JOptionPane.showMessageDialog(null, "error"); //code to tell programmer somethings wrong
 			}
 				
 		}	
