@@ -16,8 +16,7 @@ import javax.swing.JLabel;
 public class Choice extends JFrame {
 	private JButton btnCreateSurvey;
 	private JButton btnLookUpSurvey;
-	private JButton btnGiveSurvey;
-	private JLabel lblChoose;
+	private JButton btnQuit;
 	
 	
 	public Choice() {
