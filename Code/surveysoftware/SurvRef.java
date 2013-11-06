@@ -27,15 +27,15 @@ public void initGUI()
 	comboBox.setBounds(121, 68, 152, 20);
 	getContentPane().add(comboBox);
 	
-	lblChooseSurveyFrom = new JLabel("Choose survey from drop down");
+	lblChooseSurveyFrom = new JLabel("Choose survey from drop down"); //drop down menu populated by curent survey titles
 	lblChooseSurveyFrom.setBounds(121, 27, 158, 42);
 	getContentPane().add(lblChooseSurveyFrom);
 	
-	btnReviewSurvey = new JButton("Review Survey");
+	btnReviewSurvey = new JButton("Review Survey"); //After choosing survey button opens up survey for review
 	btnReviewSurvey.setBounds(70, 119, 118, 23);
 	getContentPane().add(btnReviewSurvey);
 	
-	btnGiveSurvey = new JButton("Give Survey");
+	btnGiveSurvey = new JButton("Give Survey"); //After choosing survey button opens up survey to give
 	btnGiveSurvey.setBounds(214, 119, 113, 23);
 	getContentPane().add(btnGiveSurvey);
 	
