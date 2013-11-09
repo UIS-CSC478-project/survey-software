@@ -61,12 +61,13 @@ public class SurveyGUI extends JFrame {  //GUI used to create survey
 		{
 		
 		setResizable(false); //user not allowed to resize
-		setSize(750,787);
+		setSize(610,787);
 		getContentPane().setLayout(null);
 		
 		Question = new JTextArea();
 		Question.setBounds(54, 180, 465, 48);
 		getContentPane().add(Question);
+		//Question.setText(null);
 			
 		lblA = new JLabel("a.");  //possible answer a
 		lblA.setBounds(54, 239, 46, 14);
@@ -100,7 +101,7 @@ public class SurveyGUI extends JFrame {  //GUI used to create survey
 		quesD.setBounds(54, 508, 465, 57);
 		getContentPane().add(quesD);
 		
-		lblAns = new JLabel("correct answer");  //input correct answer by letter a,b,c,d
+		lblAns = new JLabel("correct answer (optional)");  //input correct answer by letter a,b,c,d
 		lblAns.setBounds(54, 586, 160, 14);
 		getContentPane().add(lblAns);
 		
@@ -109,9 +110,14 @@ public class SurveyGUI extends JFrame {  //GUI used to create survey
 		getContentPane().add(corAns);
 		
 		btnNextQues = new JButton("Next Question");  //Move to next question
-		btnNextQues.setBounds(302, 673, 139, 23);
+		btnNextQues.setBounds(114, 653, 139, 23);
 		getContentPane().add(btnNextQues);
 		btnNextQues.addActionListener(new ButtonListener()); 
+		
+		btnDone = new JButton("Done");
+		btnDone.setBounds(292, 653, 139, 23);
+		getContentPane().add(btnDone);
+		btnDone.addActionListener(new ButtonListener()); 
 		
 		}
 	
@@ -121,7 +127,7 @@ public class SurveyGUI extends JFrame {  //GUI used to create survey
 		public void actionPerformed(ActionEvent e) 
 		{		
 			
-			//setVisible(false);
+			
 			ArrayList QA = new ArrayList();
 			
 			mysurvey.addNewSurvey(surveyName.getText());
@@ -151,16 +157,25 @@ public class SurveyGUI extends JFrame {  //GUI used to create survey
 			
 			mysurvey.addNewQuestionWithAnswer(QA, numAnswers);
 			
-			
-			
-			
-			Question.setText(null);  //clear all boxes, setting up for next question
-			corAns.setText(null);
+			if(e.getSource()==btnNextQues)
+			{			
+			Question.setText(null);
+			surveyName.setText(null);
 			quesA.setText(null);
 			quesB.setText(null);
 			quesC.setText(null);
 			quesD.setText(null);
 			corAns.setText(null);
+		        }
+			else if(e.getSource()==btnDone)
+			{
+				setVisible(false);
+				Choice chc = new Choice();
+				chc.initChoice();
+			}
+			else
+				setVisible(false);
+	             
 		}
 		
 	}
