@@ -15,26 +15,27 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
 
-public class SurveyGUI extends JFrame {
+public class SurveyGUI extends JFrame {  //GUI used to create survey
 	private JButton btnNextQues;
 	private JLabel lblNewSurvey, lblSurveyName, lblQuestion;
 	private JLabel lblA, lblB, lblC, lblD, lblAns;
 	private JTextArea surveyName, Question, quesA, quesB, quesC, quesD, corAns;
 	survey_actions mysurvey = new survey_actions();
 	
+	
 	public SurveyGUI() {
 		//initGUI();
 	}
 	
-	public void initGUI()
+	public void initGUI() //initialize sections of GUI 
 	{
-		
 		
 		multiCh();
 		header();
 		
 	}	
-	public void header()
+	public void header() //This information is initially entered when creating GUI
+			     //When entering questions for rest of survey, header isn't needed
 	{
 		lblNewSurvey = new JLabel("New Survey"); //New survey initiated
 		lblNewSurvey.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -50,12 +51,13 @@ public class SurveyGUI extends JFrame {
 		surveyName.setBounds(54, 108, 237, 22);
 		getContentPane().add(surveyName);
 		
-		lblQuestion = new JLabel("First Question"); //Question number
+		lblQuestion = new JLabel("Question"); //Enter question in box below lable
 		lblQuestion.setBounds(54, 155, 83, 14);
 		getContentPane().add(lblQuestion);
 	}
 		
-	public void multiCh()
+	public void multiCh() //This is body of window where questions are entered
+			      //These boxes stay active until user is finished creating survey
 		{
 		
 		setResizable(false); //user not allowed to resize
@@ -65,7 +67,6 @@ public class SurveyGUI extends JFrame {
 		Question = new JTextArea();
 		Question.setBounds(54, 180, 465, 48);
 		getContentPane().add(Question);
-		//Question.setText(null);
 			
 		lblA = new JLabel("a.");  //possible answer a
 		lblA.setBounds(54, 239, 46, 14);
@@ -153,14 +154,13 @@ public class SurveyGUI extends JFrame {
 			
 			
 			
-			Question.setText(null);
+			Question.setText(null);  //clear all boxes, setting up for next question
 			corAns.setText(null);
 			quesA.setText(null);
 			quesB.setText(null);
 			quesC.setText(null);
 			quesD.setText(null);
 			corAns.setText(null);
-			JOptionPane.showMessageDialog(null, "This worked");
 		}
 		
 	}

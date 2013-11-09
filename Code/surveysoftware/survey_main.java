@@ -29,10 +29,10 @@ public class survey_main {
 
 
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) { //This is the beginnging of the program
 		boolean dbExists;
 		
-		Choice askusr = new Choice();
+		Choice askusr = new Choice(); //Direct program to main menu seeking user direction
 		askusr.initChoice();
 		askusr.setVisible(true);
 		
