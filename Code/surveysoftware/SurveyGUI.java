@@ -130,7 +130,9 @@ public class SurveyGUI extends JFrame {  //GUI used to create survey
 			
 			ArrayList QA = new ArrayList();
 			
-			mysurvey.addNewSurvey(surveyName.getText());
+			if(!mysurvey.survey_exists(surveyName.getText())){
+				mysurvey.addNewSurvey(surveyName.getText());
+			}
 			
 			QA.add(mysurvey.getSurveyID(surveyName.getText()));
 			
@@ -160,7 +162,7 @@ public class SurveyGUI extends JFrame {  //GUI used to create survey
 			if(e.getSource()==btnNextQues)
 			{			
 			Question.setText(null);
-			surveyName.setText(null);
+			//surveyName.setText(null);
 			quesA.setText(null);
 			quesB.setText(null);
 			quesC.setText(null);

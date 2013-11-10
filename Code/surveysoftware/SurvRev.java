@@ -3,7 +3,11 @@ import javax.swing.JFrame;
 
 
 public class SurvRev extends JFrame {
-	public SurvRev() {
+	
+	String surveyName;
+	
+	public SurvRev(String s) {
+		surveyName = s;
 		//initGUI();
 	}
 	public void initGUI()

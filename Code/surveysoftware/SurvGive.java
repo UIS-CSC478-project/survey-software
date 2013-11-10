@@ -3,8 +3,14 @@ import javax.swing.JFrame;
 
 
 public class SurvGive extends JFrame {
-	public SurvGive() 
+	
+	String surveyName;
+	survey_actions mySurvey;
+	
+	public SurvGive(String s) 
 	{
+		surveyName = s;
+		mySurvey = new survey_actions();
 		//initGUI();
 	}
 	public void initGUI()

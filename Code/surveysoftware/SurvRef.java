@@ -10,11 +10,14 @@ public class SurvRef extends JFrame {
 	private JButton btnReviewSurvey, btnGiveSurvey, btnMainMenu;
 	private JLabel lblChooseSurveyFrom;
 	private JComboBox comboBox;
+	survey_actions mySurvey;
+	String surveyName;
 	
 	public SurvRef()   //This GUI allows user to choose a survey
 			   //and then choose to review or give the survey
 	{
 		//initGUI();
+		mySurvey = new survey_actions();
 	}
 
 
@@ -44,9 +47,16 @@ public void initGUI()
 	btnMainMenu.setBounds(156, 171, 106, 23);
 	getContentPane().add(btnMainMenu);
 	
+	//comboBox.addActionListener(new ButtonListener());
 	btnReviewSurvey.addActionListener(new ButtonListener());
 	btnGiveSurvey.addActionListener(new ButtonListener());
 	btnMainMenu.addActionListener(new ButtonListener()); 
+	
+	
+	String[] allSurveys = mySurvey.getSurveyNames();
+	for(int i = 0; i < allSurveys.length; i++){
+          comboBox.addItem(allSurveys[i]);
+	}
 }
 	public class ButtonListener implements ActionListener
 	{
@@ -57,14 +67,14 @@ public void initGUI()
 			if(e.getSource()==btnReviewSurvey)  //Review selected survey
 			{
 				setVisible(false);
-				SurvRev svr = new SurvRev();
+				SurvRev svr = new SurvRev((String)comboBox.getSelectedItem());
 				svr.initGUI();
 				
 			}
 			else if(e.getSource()==btnGiveSurvey) //Give selected survey
 			{
 				setVisible(false);
-				SurvGive svg = new SurvGive();	
+				SurvGive svg = new SurvGive((String)comboBox.getSelectedItem());	
 				svg.initGUI();
 			}
 			else

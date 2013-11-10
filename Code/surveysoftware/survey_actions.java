@@ -25,8 +25,8 @@ public class survey_actions implements survey_interface{
 	}
 	
 	/* Collects the survey name and calls the database function to add it to the database. */
-	public void addNewSurvey(String surveyname){
-		mydb.addNewSurvey(surveyname);	
+	public void addNewSurvey(String surveyName){
+			mydb.addNewSurvey(surveyName);	
 	}
 	
 	/* Collects the questions and answers and calls the database function to add them to the database. */
@@ -57,18 +57,18 @@ public class survey_actions implements survey_interface{
 		mydb.addResults(quesID, answer, other);		
 	}
 	
-	public int getSurveyID(String surveyname){
-		return mydb.getSurveyID(surveyname);
+	public int getSurveyID(String surveyName){
+		return mydb.getSurveyID(surveyName);
 		
 	}
 	
 	/* Returns a list of all Survey questions for a given Survey id*/
-	public ArrayList getSurveyQuestions(String surveyname){
-		ArrayList test = mydb.getSurveyQuestions(mydb.getSurveyID(surveyname));
+	public ArrayList getSurveyQuestions(String surveyName){
+		ArrayList test = mydb.getSurveyQuestions(mydb.getSurveyID(surveyName));
 		return test;
 	}	
 	
-	public boolean checkUniqueSurveyName(String name){
+	public boolean checkUniquesurveyName(String name){
 		return mydb.checkUniqueSurveyName(name);
 	}
 	
