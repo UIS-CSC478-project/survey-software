@@ -66,7 +66,7 @@ public class survey_db implements db_interface{
 			sql = "CREATE TABLE POSSIBLE_ANSWERS " +
 				"(PA_ID INTEGER PRIMARY KEY AUTOINCREMENT," +
 				" FK_Q_ID INTEGER NOT NULL," +
-				" LETTER CHAR NOT NULL," +
+				" LETTER TEXT NOT NULL," +
 				" ANSWER_TEXT TEXT NOT NULL," +
 				" FOREIGN KEY (FK_Q_ID) REFERENCES SURVEY_QUESTION(Q_ID))"; 
 			stmt.executeUpdate(sql);
@@ -380,6 +380,8 @@ public class survey_db implements db_interface{
 		return numquestions;		
 	}
 	
+	
+	/* Returns an ArrayList of ArrayLists that holds the questions and possible answers*/
 	public ArrayList getSurveyQuestions(int surveyID){
 		//int numofquestions = this.getNumQuestions(surveyID);
 		Connection c = null;
@@ -395,7 +397,7 @@ public class survey_db implements db_interface{
 		      c = DriverManager.getConnection("jdbc:sqlite:surveydatabase.db");
 		      stmt = c.createStatement();
 		      System.out.println("about to get questions");
-		      rsQuestions = stmt.executeQuery( "SELECT Q_ID, QUESTION_TEXT FROM SURVEY_QUESTION WHERE SURVEY_QUESTION.FK_S_ID = '1';");
+		      rsQuestions = stmt.executeQuery( "SELECT Q_ID, QUESTION_TEXT FROM SURVEY_QUESTION WHERE SURVEY_QUESTION.FK_S_ID = '" + surveyID + "';");
 		      
 		      		      
 		      int counter = 0;
@@ -472,7 +474,40 @@ public class survey_db implements db_interface{
 	    
 	    return sid;
 	}
-
+	
+	/* Counts the number of questions that belong to a particular survey*/
+	public int getNumberOfQuestions(int surveyID){
+		Connection c = null;
+	    Statement stmt = null;
+	    ResultSet rs = null;
+	    int countRow = 0;
+	    try {
+	      Class.forName("org.sqlite.JDBC");
+	      c = DriverManager.getConnection("jdbc:sqlite:surveydatabase.db");
+	      stmt = c.createStatement();
+	      rs = stmt.executeQuery( "SELECT COUNT(Q_ID) FROM SURVEY_QUESTION WHERE FK_S_ID = '" + surveyID + "'" );
+	      countRow = rs.getInt(1); 
+	      rs.close();
+	      stmt.close();
+	      c.close();
+	      
+	      
+	    } catch ( Exception e ) {
+	      System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+	      JOptionPane.showMessageDialog(null, e.getMessage());
+	    } finally {
+	    	try{
+		  	      stmt.close();
+			      c.close();
+		    	} catch (Exception e) {
+		    		JOptionPane.showMessageDialog(null, e.getMessage());
+		    	}
+		    }
+	    
+		return countRow;
+		
+	}
+	
 	
 	public boolean checkUniqueSurveyName(String name){
 		boolean sameName = false;

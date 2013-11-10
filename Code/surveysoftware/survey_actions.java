@@ -62,10 +62,14 @@ public class survey_actions implements survey_interface{
 		
 	}
 	
-	/* Returns a list of all Survey questions for a given Survey id*/
+	public int getNumberOfQuestions(int surveyID){
+		return mydb.getNumberOfQuestions(surveyID);		
+	}
+	
+	/* Returns an ArrayList of ArrayLists of all Survey questions plus answers for a given Survey id*/
 	public ArrayList getSurveyQuestions(String surveyName){
-		ArrayList test = mydb.getSurveyQuestions(mydb.getSurveyID(surveyName));
-		return test;
+		ArrayList surveyQuestions = mydb.getSurveyQuestions(mydb.getSurveyID(surveyName));
+		return surveyQuestions;
 	}	
 	
 	public boolean checkUniquesurveyName(String name){
