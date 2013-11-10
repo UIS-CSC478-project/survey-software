@@ -24,7 +24,7 @@ public interface survey_interface {
 	void addNewRespondent();
 	
 	/* Collect results from users taking survey and send to the database function*/
-	void addResults();
+	void addResults(int surveyID, int quesID, String answer, String other);
 	
 	/* Returns a list of all Survey questions for a given Survey id*/
 	ArrayList getSurveyQuestions(String surveyname);

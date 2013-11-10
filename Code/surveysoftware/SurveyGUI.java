@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 
 public class SurveyGUI extends JFrame {  //GUI used to create survey
-	private JButton btnNextQues;
+	private JButton btnNextQues, btnDone;
 	private JLabel lblNewSurvey, lblSurveyName, lblQuestion;
 	private JLabel lblA, lblB, lblC, lblD, lblAns;
 	private JTextArea surveyName, Question, quesA, quesB, quesC, quesD, corAns;
