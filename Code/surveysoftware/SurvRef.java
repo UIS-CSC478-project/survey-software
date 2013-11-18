@@ -68,7 +68,7 @@ public void initGUI()
 			{
 				setVisible(false);
 				SurvRev svr = new SurvRev((String)comboBox.getSelectedItem());
-				svr.initGUI();
+				//svr.initGUI();
 				
 			}
 			else if(e.getSource()==btnGiveSurvey) //Give selected survey

@@ -10,7 +10,7 @@ public class survey_actions implements survey_interface{
 		mydb = new survey_db();
 		dbExists = mydb.check4Db();
 		
-		//DELETE THE NEXT 4 LINES BEFORE GOING LIVE
+//		//DELETE THE NEXT 4 LINES BEFORE GOING LIVE
 //		if (dbExists){
 //			System.out.println(" delete the old DB");
 //			mydb.deleteDB();
@@ -19,7 +19,6 @@ public class survey_actions implements survey_interface{
 		//////////////////////////////////////////
 		
 		if (!dbExists){
-			System.out.println("make a new DB");
 			mydb.createDb();
 		}
 	}
@@ -30,7 +29,7 @@ public class survey_actions implements survey_interface{
 	}
 	
 	/* Collects the questions and answers and calls the database function to add them to the database. */
-	public void addNewQuestionWithAnswer(ArrayList questionanswer, int numanswers){
+	public void addNewQuestionWithAnswer(ArrayList <String> questionanswer, int numanswers){
 		mydb.addNewQuestionWithAnswer(questionanswer, numanswers);
 	}
 	
@@ -67,8 +66,8 @@ public class survey_actions implements survey_interface{
 	}
 	
 	/* Returns an ArrayList of ArrayLists of all Survey questions plus answers for a given Survey id*/
-	public ArrayList getSurveyQuestions(String surveyName){
-		ArrayList surveyQuestions = mydb.getSurveyQuestions(mydb.getSurveyID(surveyName));
+	public ArrayList getSurveyQuestionsAnswers(String surveyName){
+		ArrayList surveyQuestions = mydb.getSurveyQuestionsAnswers(mydb.getSurveyID(surveyName));
 		return surveyQuestions;
 	}	
 	
@@ -89,13 +88,12 @@ public class survey_actions implements survey_interface{
 	}
 	
 	public boolean survey_exists(String surveyName){
-		System.out.println("in survey_exists");
 		boolean match = false;
+		
 		ArrayList allNames = mydb.getSurveyNames();
-		for(Object item : allNames ){
-			System.out.println("item is: " + (String)item);
-			if (surveyName.equals((String)item)){
-				System.out.println("survey name in db: " + item);
+		
+		for(int i = 0; i < allNames.size(); i++){
+			if (surveyName.equals(allNames.get(i))){
 				match = true;
 			}
 		}

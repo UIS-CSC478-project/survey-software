@@ -42,7 +42,7 @@ public interface db_interface {
 	 * questionanswer [4][6][8][10] = answer letter
 	 * questionansswer [5][7][9][11] = answer text
 	 */
-	void addNewQuestionWithAnswer(ArrayList questionanswer, int numanswers);
+	void addNewQuestionWithAnswer(ArrayList <String> questionAnswer, int numAnswers);
 	
 	/* Not active yet at this time.  Will use to track respondents.*/
 	void addNewRespondent();
@@ -54,7 +54,7 @@ public interface db_interface {
 	ArrayList getSurveyNames();
 	
 	/* Returns a list of all Survey questions for a given Survey id*/
-	ArrayList getSurveyQuestions(int surveyID);
+	ArrayList getSurveyQuestionsAnswers(int surveyID);
 	
 	int getNumQuestions(int surveyID);
 	

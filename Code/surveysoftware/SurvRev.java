@@ -1,60 +1,57 @@
 package surveysoftware;
+import java.awt.*;
 import java.util.ArrayList;
-import javax.swing.JFrame;
-import javax.swing.JTextField;
-
+import javax.swing.*;
 
 public class SurvRev extends JFrame {
 	
 	String surveyName;
 	survey_actions mySurvey;
-	private JTextField[] questionsOutput;
+	private JScrollPane scroller;
+	private JPanel panel;
+	private JTextArea[] text;
 	
 	public SurvRev(String s) {
-		surveyName = s;
+	    surveyName = s;
 		mySurvey = new survey_actions();
-		//initGUI();
+		initGUI();
 	}
+	
 	public void initGUI()
 	{
-		int x = 5;
-		int y = 5;
-		int moveDown = 0;
-		setSize(684, 704);
-		setResizable(true);
-		getContentPane().setLayout(null);
-		setVisible(true);
-		
-		//Get the number of questions that will be displayed
 		int numQuestions = mySurvey.getNumberOfQuestions(mySurvey.getSurveyID(surveyName));
+		String postText = "";
+		setSize(600,700);
+		panel = new JPanel();
+		panel.setLayout(new GridLayout(32, 1,10,10));
+		setVisible(true);
+		scroller = new JScrollPane(panel);
+		text = new JTextArea[30];
+		getContentPane().add(scroller, BorderLayout.CENTER);
 		
 		//Get questions
-		ArrayList allQuestions = mySurvey.getSurveyQuestions(surveyName);
-		//Create a JTextFieldArray for the appropriate number of questions
-		questionsOutput = new JTextField[numQuestions];
-		
-		for (int i = 0; i < numQuestions; i++){
-			String outputQA;
-			String[] aQuestionAnswer = new String[9];
-			ArrayList temp = (ArrayList) allQuestions.get(i);
-			aQuestionAnswer = (String[]) temp.toArray(aQuestionAnswer);
-			
-			outputQA = aQuestionAnswer[0]+ "\n" + aQuestionAnswer[1] + ")  " + 
-			aQuestionAnswer[2] + "\n" + aQuestionAnswer[3] + ")  " + aQuestionAnswer[4] + 
-			"\n" + aQuestionAnswer[5] + ")  " 	+ aQuestionAnswer[6] + "\n" + aQuestionAnswer[7] + 
-			")  " + aQuestionAnswer[8] + "\n";
-			
-			questionsOutput[i] = new JTextField(outputQA, 100);
+		ArrayList allQuestions = mySurvey.getSurveyQuestionsAnswers(surveyName);
+		panel.add(new JLabel(surveyName));
+		for(int i = 0; i < numQuestions; i++){
+			ArrayList <String> temp = (ArrayList) allQuestions.get(i);
+			postText = temp.get(0) + "\n";
+			for(int j = 1; j < temp.size(); j++){
+				if (j%2 == 0)
+					postText = postText + temp.get(j) + "\n";
+				else
+					postText = postText + "     " + temp.get(j) + "   ";
+			}
 			
 			
-			questionsOutput[i].setBounds(5, 5 + moveDown, 660, 100);
-			questionsOutput[i].setEditable(false);
-			questionsOutput[i].setVisible(true);
-			getContentPane().add(questionsOutput[i]);
-			moveDown+=100;
-
+			text[i] = new JTextArea(postText);
+			
+			text[i].setEditable(false);
+			text[i].setColumns(1);
+			panel.add(text[i]);
 		}
-						
-	}
+	    scroller = new JScrollPane(panel);
+	    getContentPane().add(scroller, BorderLayout.CENTER);
+
+	}//END INITGUI
 
 }

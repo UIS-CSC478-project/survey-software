@@ -33,7 +33,6 @@ public class survey_db implements db_interface{
 	/* Check for the presence of an existing survey database.*/
 	public boolean check4Db(){
 		File f = new File("surveydatabase.db");
-		System.out.println("F exists = " + f.exists());
 		return f.exists();	
 	}
 	
@@ -81,7 +80,6 @@ public class survey_db implements db_interface{
 				" FOREIGN KEY (FK_PA_ID) REFERENCES POSSIBLE_ANSWERS(PA_ID))"; 
 		stmt.executeUpdate(sql);
 		    
-			System.out.println("database created");
 		    stmt.close();
 		    c.close();
 		} catch (Exception e){
@@ -152,8 +150,8 @@ public class survey_db implements db_interface{
 	          + "(FK_S_ID, QUESTION_TEXT, QUESTION_ANSWER) "
 	          + "VALUES "
 	          + "('" + questionanswer.get(0)   + "',"
-	          + "'" + questionanswer.get(1) + "',"
-	          + "'" + questionanswer.get(2) + "')";
+	          + "'" + (String) questionanswer.get(1) + "',"
+	          + "'" + (String) questionanswer.get(2) + "')";
 	      stmt.executeUpdate(sql);
 	      rs = stmt.executeQuery("SELECT Q_ID FROM SURVEY_QUESTION WHERE QUESTION_TEXT = '" + questionanswer.get(1) + "'");
 	      int newqid = rs.getInt(1); 
@@ -162,24 +160,24 @@ public class survey_db implements db_interface{
     	          + "(FK_Q_ID, LETTER, ANSWER_TEXT) "
     	          + "VALUES "
     	          + "('" + newqid   + "',"
-    	          + "'" + questionanswer.get(3) + "',"
-    	          + "'" + questionanswer.get(4) + "')";
+    	          + "'" + (String) questionanswer.get(3) + "',"
+    	          + "'" + (String) questionanswer.get(4) + "')";
     	  stmt.executeUpdate(sql);
     	  
     	  sql = "INSERT INTO POSSIBLE_ANSWERS "
 	          + "(FK_Q_ID, LETTER, ANSWER_TEXT) "
 	          + "VALUES "
 	          + "('" + newqid   + "',"
-	          + "'" + questionanswer.get(5) + "',"
-	          + "'" + questionanswer.get(6) + "')";
+	          + "'" + (String) questionanswer.get(5) + "',"
+	          + "'" + (String) questionanswer.get(6) + "')";
     	  stmt.executeUpdate(sql);  
 	      if(numanswers > 2){
 	    	  sql = "INSERT INTO POSSIBLE_ANSWERS "
 		          + "(FK_Q_ID, LETTER, ANSWER_TEXT) "
 		          + "VALUES "
 		          + "('" + newqid   + "',"
-		          + "'" + questionanswer.get(7) + "',"
-		          + "'" + questionanswer.get(8) + "')";
+		          + "'" + (String) questionanswer.get(7) + "',"
+		          + "'" + (String) questionanswer.get(8) + "')";
 	    	  stmt.executeUpdate(sql);  
 	      }
 	      
@@ -188,8 +186,8 @@ public class survey_db implements db_interface{
 		          + "(FK_Q_ID, LETTER, ANSWER_TEXT) "
 		          + "VALUES "
 		          + "('" + newqid   + "',"
-		          + "'" + questionanswer.get(9) + "',"
-		          + "'" + questionanswer.get(10) + "')";
+		          + "'" + (String) questionanswer.get(9) + "',"
+		          + "'" + (String) questionanswer.get(10) + "')";
 	    	  stmt.executeUpdate(sql);  
 	      }
 	      
@@ -319,8 +317,9 @@ public class survey_db implements db_interface{
 	      c = DriverManager.getConnection("jdbc:sqlite:surveydatabase.db");;
 	      stmt = c.createStatement();
 	      rs = stmt.executeQuery( "SELECT SURVEY_NAME FROM SURVEY;" );
-	      
+
 	      while(rs.next()){
+	    	  
 	    	   surveyNames.add(rs.getString("SURVEY_NAME"));
 	    	}
 	      
@@ -382,10 +381,11 @@ public class survey_db implements db_interface{
 	
 	
 	/* Returns an ArrayList of ArrayLists that holds the questions and possible answers*/
-	public ArrayList getSurveyQuestions(int surveyID){
+	public ArrayList getSurveyQuestionsAnswers(int surveyID){
 		//int numofquestions = this.getNumQuestions(surveyID);
 		Connection c = null;
-	    Statement stmt = null;
+	    Statement stmtQuestions;
+	    Statement stmtAnswers;
 	    ResultSet rsQuestions = null;
 	    ResultSet rsAnswers = null;
 		ArrayList myLists = new ArrayList();
@@ -395,33 +395,32 @@ public class survey_db implements db_interface{
 	    try {
 		      Class.forName("org.sqlite.JDBC");
 		      c = DriverManager.getConnection("jdbc:sqlite:surveydatabase.db");
-		      stmt = c.createStatement();
-		      System.out.println("about to get questions");
-		      rsQuestions = stmt.executeQuery( "SELECT Q_ID, QUESTION_TEXT FROM SURVEY_QUESTION WHERE SURVEY_QUESTION.FK_S_ID = '" + surveyID + "';");
+		      stmtQuestions = c.createStatement();
+		      stmtAnswers = c.createStatement();
+		      rsQuestions = stmtQuestions.executeQuery( "SELECT Q_ID, QUESTION_TEXT FROM SURVEY_QUESTION WHERE SURVEY_QUESTION.FK_S_ID = '" + surveyID + "';");
+
+		      int questionscounter = 0;
 		      
-		      		      
 		      int counter = 0;
 		      while (rsQuestions.next()) {
 		    	  	ArrayList tempArray = new ArrayList();
 		            int id = rsQuestions.getInt("Q_ID");
 		            String questionStr = rsQuestions.getString("QUESTION_TEXT");
-		            System.out.println("quid: " + id + "\t text: " + questionStr);
-		            
-		            tempArray.add(id);
 		            tempArray.add(questionStr);
 		            
-		            System.out.println("about to get answers");
-		            rsAnswers = stmt.executeQuery( "SELECT ANSWER_TEXT FROM POSSIBLE_ANSWERS WHERE POSSIBLE_ANSWERS.FK_Q_ID = '" + id + "';");
+		            rsAnswers = stmtAnswers.executeQuery( "SELECT LETTER, ANSWER_TEXT FROM POSSIBLE_ANSWERS WHERE POSSIBLE_ANSWERS.FK_Q_ID = '" + id + "';");
 				    while (rsAnswers.next()){
+				    	String letter = rsAnswers.getString("LETTER");
+				    	tempArray.add(letter);
 				    	String answer = rsAnswers.getString("ANSWER_TEXT");
-				    	System.out.println("answer is: " + answer);
 				    	tempArray.add(answer);
 				    }
-		            
+		         questionscounter ++; 
 		         myLists.add(tempArray);   
 		      }
 		            
-		      stmt.close();
+		      stmtQuestions.close();
+		      stmtAnswers.close();
 		      c.close();   
 		      
 		    } catch ( Exception e ) {
@@ -429,13 +428,15 @@ public class survey_db implements db_interface{
 		      JOptionPane.showMessageDialog(null, e.getClass().getName() + ": " + e.getMessage());
 		    } finally {
 		    	try{
-			  	      stmt.close();
+		    		  stmtQuestions = c.createStatement();
+		    		  stmtAnswers = c.createStatement();
+		    		  stmtQuestions.close();
+				      stmtAnswers.close();
 				      c.close();
 			    	} catch (Exception e) {
 			    		JOptionPane.showMessageDialog(null, e.getMessage());
 			    	}
 			    }
-	    
 		    return myLists;
 			
 		}

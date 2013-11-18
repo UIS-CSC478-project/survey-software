@@ -18,7 +18,7 @@ public interface survey_interface {
 	void addNewSurvey(String surveyname);
 	
 	/* Collects the questions and answers and calls the database function to add them to the database. */
-	void addNewQuestionWithAnswer(ArrayList questionanswer, int numanswers);
+	void addNewQuestionWithAnswer(ArrayList <String> questionanswer, int numanswers);
 	
 	/* Not active yet at this time.  Will use to collect respondent information.*/
 	void addNewRespondent();
@@ -27,7 +27,7 @@ public interface survey_interface {
 	void addResults(int surveyID, int quesID, String answer, String other);
 	
 	/* Returns a list of all Survey questions for a given Survey id*/
-	ArrayList getSurveyQuestions(String surveyname);
+	ArrayList getSurveyQuestionsAnswers(String surveyname);
 	
 }
 
