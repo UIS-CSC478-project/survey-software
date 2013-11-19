@@ -26,7 +26,7 @@ public class SurvRev extends JFrame {
 		panel.setLayout(new GridLayout(32, 1,10,10));
 		setVisible(true);
 		scroller = new JScrollPane(panel);
-		text = new JTextArea[30];
+		text = new JTextArea[numQuestions];
 		getContentPane().add(scroller, BorderLayout.CENTER);
 		
 		//Get questions

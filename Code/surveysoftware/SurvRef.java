@@ -75,7 +75,7 @@ public void initGUI()
 			{
 				setVisible(false);
 				SurvGive svg = new SurvGive((String)comboBox.getSelectedItem());	
-				svg.initGUI();
+				//svg.initGUI();
 			}
 			else
 			{
