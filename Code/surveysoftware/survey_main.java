@@ -36,37 +36,6 @@ public class survey_main {
 		askusr.initChoice();
 		askusr.setVisible(true);
 		
-		
-//		survey_actions mysurvey = new survey_actions();
-//		mysurvey.addNewSurvey("survey1");
-//		
-//		ArrayList questionanswer = new ArrayList();
-//		questionanswer.add(mysurvey.getSurveyID("survey1"));
-//		questionanswer.add("why");
-//		questionanswer.add(null);
-//		questionanswer.add('a');
-//		questionanswer.add("answer a");
-//
-//		questionanswer.add('b');
-//		questionanswer.add("answer b");
-//		questionanswer.add('c');
-//		questionanswer.add("answer c");
-//		questionanswer.add('d');
-//		questionanswer.add("answer d");
-//		
-//		mysurvey.addNewQuestionWithAnswer(questionanswer, 4);
-//		ArrayList surveynames;
-//		surveynames = mysurvey.getSurveyNames();
-//		mysurvey.getSurveyQuestions("survey1");
-		
-		//creating thread 
-//		SwingUtilities.invokeLater(new Runnable()
-//		{ 
-//			public void run(){ 
-//				JavaSwing1 obj=new JavaSwing1(); 
-//				obj.display(); 
-//				} 
-//			}); 
 	} // END MAIN
 } //END SURVEY_MAIN
 	

@@ -3,6 +3,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
@@ -13,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import surveysoftware.SurveyGUI.ButtonListener;
 
 
 public class SurvGive extends JFrame {
@@ -27,8 +31,9 @@ public class SurvGive extends JFrame {
 	private JTextField[] answer;
 	private JLabel survey;
 	private JButton done, done2; 
-	//int x = 0;
+	int numQuestions;
 	int y = 20;
+	ArrayList <String> oneQuesAns;
 	
 	public SurvGive(String s) {
 	    surveyName = s;
@@ -38,7 +43,7 @@ public class SurvGive extends JFrame {
 	
 	public void initGUI()
 	{	    
-		int numQuestions = mySurvey.getNumberOfQuestions(mySurvey.getSurveyID(surveyName));
+		numQuestions = mySurvey.getNumberOfQuestions(mySurvey.getSurveyID(surveyName));
 		String postText = "";
 		//Get questions
 		allQuestions = mySurvey.getSurveyQuestionsAnswers(surveyName);
@@ -54,22 +59,24 @@ public class SurvGive extends JFrame {
 		text = new JTextArea[numQuestions];
 		answer = new JTextField[numQuestions];
 		survey = new JLabel(surveyName);
-		survey.setBounds(135, 25, 138, 23);
+		survey.setBounds(10, 25, 138, 23);
 		panel.add(survey);
 		done = new JButton("Done");
 		done.setBounds(254, 25, 138, 23);
+		done.addActionListener(new ButtonListener());
 		panel.add(done);
 		
 		for(int i = 0; i < numQuestions; i++){
 			
 			/*Get the Text to post */
-			ArrayList <String> temp = (ArrayList) allQuestions.get(i);
-			postText = temp.get(0) + "\n";
-			for(int j = 1; j < temp.size(); j++){
+			oneQuesAns = (ArrayList) allQuestions.get(i);
+			//System.out.println(oneQuesAns);
+			postText = oneQuesAns.get(0) + "\n";
+			for(int j = 1; j < oneQuesAns.size()-1; j++){
 				if (j%2 == 0)
-					postText = postText + temp.get(j) + "\n";
+					postText = postText + oneQuesAns.get(j) + "\n";
 				else
-					postText = postText + "     " + temp.get(j) + "   ";
+					postText = postText + "     " + oneQuesAns.get(j) + "   ";
 			}
 			
 			y+=40;
@@ -90,11 +97,31 @@ public class SurvGive extends JFrame {
 		}
 		done2 = new JButton("Done");
 		done2.setBounds(254, y + 30, 138, 23);
+		done2.addActionListener(new ButtonListener());
 		panel.add(done2);
 	    scroller = new JScrollPane(panel);
+	    scroller.setPreferredSize(new Dimension(600,700));
 	    getContentPane().add(scroller, BorderLayout.CENTER);
 	 
 	}//END INITGUI
+	
+	public class ButtonListener implements ActionListener
+	{		
+		@Override
+		public void actionPerformed(ActionEvent e) 
+		{					
+			for (int i = 0; i < numQuestions; i++){
+				oneQuesAns = (ArrayList) allQuestions.get(i);
+				Integer num = Integer.valueOf(oneQuesAns.get(oneQuesAns.size()-1));
+				mySurvey.addResults(num, answer[i].getText());
+			}
+			
+			setVisible(false);  //back to main menu
+			Choice chc = new Choice();
+			chc.initChoice();
+		}
+		
+	}
 
 }
 

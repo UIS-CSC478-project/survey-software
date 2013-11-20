@@ -66,6 +66,7 @@ public class SurveyGUI extends JFrame {  //GUI used to create survey
 		
 		Question = new JTextArea();
 		Question.setBounds(54, 180, 465, 48);
+		Question.setLineWrap(true);
 		getContentPane().add(Question);
 		//Question.setText(null);
 			
@@ -75,6 +76,7 @@ public class SurveyGUI extends JFrame {  //GUI used to create survey
 		
 		quesA = new JTextArea();
 		quesA.setBounds(54, 255, 465, 57);
+		quesA.setLineWrap(true);
 		getContentPane().add(quesA);
 		
 		lblB = new JLabel("b.");  //possible answer b
@@ -83,6 +85,7 @@ public class SurveyGUI extends JFrame {  //GUI used to create survey
 		
 		quesB = new JTextArea();
 		quesB.setBounds(54, 337, 465, 57);
+		quesB.setLineWrap(true);
 		getContentPane().add(quesB);
 		
 		lblC = new JLabel("c.");  //possible answer c
@@ -91,6 +94,7 @@ public class SurveyGUI extends JFrame {  //GUI used to create survey
 		
 		quesC = new JTextArea();
 		quesC.setBounds(54, 422, 465, 57);
+		quesC.setLineWrap(true);
 		getContentPane().add(quesC);
 		
 		lblD = new JLabel("d.");  //possible answer d
@@ -99,6 +103,7 @@ public class SurveyGUI extends JFrame {  //GUI used to create survey
 		
 		quesD = new JTextArea();
 		quesD.setBounds(54, 508, 465, 57);
+		quesD.setLineWrap(true);
 		getContentPane().add(quesD);
 		
 		lblAns = new JLabel("correct answer (optional)");  //input correct answer by letter a,b,c,d
@@ -121,7 +126,7 @@ public class SurveyGUI extends JFrame {  //GUI used to create survey
 		
 		}
 	
-	private class ButtonListener implements ActionListener
+	public class ButtonListener implements ActionListener
 	{		
 		@Override
 		public void actionPerformed(ActionEvent e) 

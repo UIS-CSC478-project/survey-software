@@ -38,6 +38,7 @@ public class survey_db implements db_interface{
 	
 	/* Create a new survey database with tables if the check4Db returns false. */
 	public void createDb(){
+		System.out.println("in createDb");
 		Connection c = null;
 		Statement stmt = null;
 
@@ -98,6 +99,7 @@ public class survey_db implements db_interface{
 	
 	/* Add a new survey name to the Survey table. */
 	public void addNewSurvey(String mysurveyname){
+		System.out.println("in addNewSurvey");
 		Connection c = null;
 	    Statement stmt = null;
 	    try {
@@ -136,6 +138,7 @@ public class survey_db implements db_interface{
 	 * questionansswer [5][7][9][11] = answer text
 	 */
 	public void addNewQuestionWithAnswer(ArrayList questionanswer, int numanswers){
+		System.out.println("in addNewQuestionWithAnswer");
 		Connection c = null;
 	    Statement stmt = null;
 	    ResultSet rs = null;
@@ -219,27 +222,34 @@ public class survey_db implements db_interface{
 	 * This one is for one letter result with no additional text.
 	 * */
 	public void addResults(int quesID, String answer){
+		System.out.println("in getAddResults");
 		//in the action performed will be a line like 
 		// mysurvey.addNewSurvey(surveyName.getText());
+		int pAnswerID = getAnswerID(quesID, answer);
+		
 		Connection c = null;
 	    Statement stmt = null;
 	    ResultSet rs = null;
+	    
+	    
 	    try {
 	      Class.forName("org.sqlite.JDBC");
 	      c = DriverManager.getConnection("jdbc:sqlite:surveydatabase.db");
 	      c.setAutoCommit(false);
 	      stmt = c.createStatement();
 	      
+	      System.out.println("answerID:  " + pAnswerID);
+	      System.out.println("quesID:  " + quesID);
 	      String sql = "INSERT INTO ANSWERS " 
 	          + "(FK_Q_ID, FK_PA_ID) "
 	          + "VALUES "
 	          + "('" + quesID   + "',"
-	          + "'" + answer + "')";
+	          + "'" + pAnswerID + "')";
 	      
 	      stmt.executeUpdate(sql);
 	      
 	      c.commit();
-	      rs.close();
+	      
 	      stmt.close();
 	      c.close();
 	    } catch ( Exception e ) {
@@ -260,8 +270,10 @@ public class survey_db implements db_interface{
 	 * This one is for a letter result with additional text.
 	 * */
 	public void addResults(int quesID, String answer, String other){
+		System.out.println("in addResults with other text");
 		//in the action performed will be a line like 
 		// mysurvey.addNewSurvey(surveyName.getText());
+		int pAnswerID = getAnswerID(quesID, answer);
 		Connection c = null;
 	    Statement stmt = null;
 	    ResultSet rs = null;
@@ -271,11 +283,12 @@ public class survey_db implements db_interface{
 	      c.setAutoCommit(false);
 	      stmt = c.createStatement();
 	      
+	      
 	      String sql = "INSERT INTO ANSWERS " 
 	          + "(FK_Q_ID, FK_PA_ID, OTHER_RESP) "
 	          + "VALUES "
 	          + "('" + quesID   + "',"
-	          + "'" + answer + "',"
+	          + "'" + pAnswerID + "',"
 	          + "'" + other + "')";
 	      
 	      stmt.executeUpdate(sql);
@@ -297,15 +310,14 @@ public class survey_db implements db_interface{
 		    }
 	}	
 	
-	
-	
-	
+
 	public void deleteDB(){
 		File f = new File("surveydatabase.db");
 		f.delete();
 	}
 	
 	public ArrayList getSurveyNames(){
+		System.out.println("in getSurveyNames");
 		ArrayList surveyNames = new ArrayList();
 		
 		Connection c = null;
@@ -322,6 +334,7 @@ public class survey_db implements db_interface{
 	    	  
 	    	   surveyNames.add(rs.getString("SURVEY_NAME"));
 	    	}
+	      System.out.println(surveyNames);
 	      
 	      rs.close();
 	      stmt.close();
@@ -346,6 +359,7 @@ public class survey_db implements db_interface{
 	}
 	
 	public int getNumQuestions(int surveyID){
+		System.out.println("in getNumQuestions");
 		int numquestions = 0;
 		
 		Connection c2 = null;
@@ -382,6 +396,7 @@ public class survey_db implements db_interface{
 	
 	/* Returns an ArrayList of ArrayLists that holds the questions and possible answers*/
 	public ArrayList getSurveyQuestionsAnswers(int surveyID){
+		System.out.println("in getSurveyQuestionsAnswers");
 		//int numofquestions = this.getNumQuestions(surveyID);
 		Connection c = null;
 	    Statement stmtQuestions;
@@ -400,21 +415,24 @@ public class survey_db implements db_interface{
 		      rsQuestions = stmtQuestions.executeQuery( "SELECT Q_ID, QUESTION_TEXT FROM SURVEY_QUESTION WHERE SURVEY_QUESTION.FK_S_ID = '" + surveyID + "';");
 
 		      int questionscounter = 0;
-		      
+		      int id;
+		      String idStr;
 		      int counter = 0;
 		      while (rsQuestions.next()) {
-		    	  	ArrayList tempArray = new ArrayList();
-		            int id = rsQuestions.getInt("Q_ID");
-		            String questionStr = rsQuestions.getString("QUESTION_TEXT");
-		            tempArray.add(questionStr);
+		    	 ArrayList tempArray = new ArrayList();
+		         id = rsQuestions.getInt("Q_ID");
+		         idStr = Integer.toString(id);
+		         String questionStr = rsQuestions.getString("QUESTION_TEXT");
+		         tempArray.add(questionStr);
 		            
-		            rsAnswers = stmtAnswers.executeQuery( "SELECT LETTER, ANSWER_TEXT FROM POSSIBLE_ANSWERS WHERE POSSIBLE_ANSWERS.FK_Q_ID = '" + id + "';");
-				    while (rsAnswers.next()){
-				    	String letter = rsAnswers.getString("LETTER");
-				    	tempArray.add(letter);
-				    	String answer = rsAnswers.getString("ANSWER_TEXT");
-				    	tempArray.add(answer);
-				    }
+		         rsAnswers = stmtAnswers.executeQuery( "SELECT LETTER, ANSWER_TEXT FROM POSSIBLE_ANSWERS WHERE POSSIBLE_ANSWERS.FK_Q_ID = '" + id + "';");
+				 while (rsAnswers.next()){
+				  	String letter = rsAnswers.getString("LETTER");
+				  	tempArray.add(letter);
+				  	String answer = rsAnswers.getString("ANSWER_TEXT");
+				 	tempArray.add(answer);
+				 }
+				 tempArray.add(idStr);   
 		         questionscounter ++; 
 		         myLists.add(tempArray);   
 		      }
@@ -446,6 +464,7 @@ public class survey_db implements db_interface{
 	
 	/* Takes the name of the survey and returns the survey id from the database*/
 	public int getSurveyID(String newsurvey){
+		System.out.println("in getSurveyID");
 		Connection c = null;
 	    Statement stmt = null;
 	    ResultSet rs = null;
@@ -478,6 +497,8 @@ public class survey_db implements db_interface{
 	
 	/* Counts the number of questions that belong to a particular survey*/
 	public int getNumberOfQuestions(int surveyID){
+		
+		System.out.println("in getNumberOfQuestions");
 		Connection c = null;
 	    Statement stmt = null;
 	    ResultSet rs = null;
@@ -511,6 +532,7 @@ public class survey_db implements db_interface{
 	
 	
 	public boolean checkUniqueSurveyName(String name){
+		System.out.println("in checkUniqueSurveyName");
 		boolean sameName = false;
 
 		Connection c = null;
@@ -544,17 +566,13 @@ public class survey_db implements db_interface{
 		    	} catch (Exception e) {
 		    		JOptionPane.showMessageDialog(null, e.getMessage());
 		    	}
-		    }
-
-	    
-		
-		
-		
+		    }		
 		return sameName;
 	}
 	
 	/* Determine the number of rows that are in a Result Set*/
 	public int getResultSetNumRows(ResultSet rs){
+		System.out.println("in getResultSetNumrows");
 		int count = 0;
 		try {
 			while ( rs.next() )  
@@ -569,5 +587,40 @@ public class survey_db implements db_interface{
 		return count;
 	}
 	
-
+	public int getAnswerID(int quesID, String answer){
+		System.out.println("in getAnswerID");
+		Connection c = null;
+	    Statement stmt = null;
+	    ResultSet rs = null;
+	    int answerId = 0;
+	    
+	    try {
+	      Class.forName("org.sqlite.JDBC");
+	      c = DriverManager.getConnection("jdbc:sqlite:surveydatabase.db");
+	      stmt = c.createStatement();
+	      rs = stmt.executeQuery( "SELECT PA_ID FROM POSSIBLE_ANSWERS WHERE FK_Q_ID = '" + quesID + "' AND LETTER = '" + answer + "'" );
+	      
+	      answerId = rs.getInt(1); 
+	      
+	      rs.close();
+	      stmt.close();
+	      c.close();
+	      
+	      
+	    } catch ( Exception e ) {
+	      System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+	      JOptionPane.showMessageDialog(null, e.getMessage());
+	    } finally {
+	    	try{
+	    		  rs.close();
+	    		  stmt.close();
+			      c.close();
+		    	} catch (Exception e) {
+		    		JOptionPane.showMessageDialog(null, e.getMessage());
+		    	}
+		    }		
+		return answerId;
+	}
+	
+	
 } // END SURVEY_DB

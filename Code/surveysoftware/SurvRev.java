@@ -1,7 +1,11 @@
 package surveysoftware;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.*;
+
+import surveysoftware.SurvGive.ButtonListener;
 
 public class SurvRev extends JFrame {
 	
@@ -10,6 +14,7 @@ public class SurvRev extends JFrame {
 	private JScrollPane scroller;
 	private JPanel panel;
 	private JTextArea[] text;
+	private JButton done, done2;
 	
 	public SurvRev(String s) {
 	    surveyName = s;
@@ -27,15 +32,19 @@ public class SurvRev extends JFrame {
 		setVisible(true);
 		scroller = new JScrollPane(panel);
 		text = new JTextArea[numQuestions];
+		done = new JButton("Done");
+		done.setBounds(254, 25, 138, 23);
+		done.addActionListener(new ButtonListener());
 		getContentPane().add(scroller, BorderLayout.CENTER);
-		
+		int i;
 		//Get questions
 		ArrayList allQuestions = mySurvey.getSurveyQuestionsAnswers(surveyName);
+		panel.add(done);
 		panel.add(new JLabel(surveyName));
-		for(int i = 0; i < numQuestions; i++){
+		for(i = 0; i < numQuestions; i++){
 			ArrayList <String> temp = (ArrayList) allQuestions.get(i);
 			postText = temp.get(0) + "\n";
-			for(int j = 1; j < temp.size(); j++){
+			for(int j = 1; j < temp.size()-1; j++){
 				if (j%2 == 0)
 					postText = postText + temp.get(j) + "\n";
 				else
@@ -49,9 +58,27 @@ public class SurvRev extends JFrame {
 			text[i].setColumns(1);
 			panel.add(text[i]);
 		}
+		done2 = new JButton("Done");
+		done2.setBounds(254, text[i].getY() + 30, 138, 23);
+		done2.addActionListener(new ButtonListener());
+		panel.add(done2);
 	    scroller = new JScrollPane(panel);
 	    getContentPane().add(scroller, BorderLayout.CENTER);
 
 	}//END INITGUI
 
+	public class ButtonListener implements ActionListener
+	{		
+		@Override
+		public void actionPerformed(ActionEvent e) 
+		{					
+			setVisible(false);  //back to main menu
+			Choice chc = new Choice();
+			chc.initChoice();
+		}
+	}
+
+	
+	
+	
 }

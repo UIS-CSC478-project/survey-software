@@ -10,7 +10,7 @@ public class survey_actions implements survey_interface{
 		mydb = new survey_db();
 		dbExists = mydb.check4Db();
 		
-//		//DELETE THE NEXT 4 LINES BEFORE GOING LIVE
+		//DELETE THE NEXT 4 LINES BEFORE GOING LIVE
 //		if (dbExists){
 //			System.out.println(" delete the old DB");
 //			mydb.deleteDB();
@@ -41,7 +41,7 @@ public class survey_actions implements survey_interface{
 	/* Collect results from users taking survey and send to the database function.
 	 * This one is for one letter result with no additional text
 	 * */
-	public void addResults(int surveyID, int quesID, String answer){
+	public void addResults(int quesID, String answer){
 		//in the action performed will be a line like 
 		// mysurvey.addNewSurvey(surveyName.getText());
 		mydb.addResults(quesID, answer);		
@@ -50,7 +50,7 @@ public class survey_actions implements survey_interface{
 	/* Collect results from users taking survey and send to the database function.
 	 * This one is for one letter result with additional text
 	 * */
-	public void addResults(int surveyID, int quesID, String answer, String other){
+	public void addResults(int quesID, String answer, String other){
 		//in the action performed will be a line like 
 		// mysurvey.addNewSurvey(surveyName.getText());
 		mydb.addResults(quesID, answer, other);		
