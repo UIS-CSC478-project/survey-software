@@ -533,7 +533,7 @@ public class survey_db implements db_interface{
 	
 	public boolean checkUniqueSurveyName(String name){
 		System.out.println("in checkUniqueSurveyName");
-		boolean sameName = false;
+		boolean isUnique = true;
 
 		Connection c = null;
 	    Statement stmt = null;
@@ -545,9 +545,9 @@ public class survey_db implements db_interface{
 	      c = DriverManager.getConnection("jdbc:sqlite:surveydatabase.db");
 //	      c.setAutoCommit(false);
 	      stmt = c.createStatement();
-	      rs = stmt.executeQuery( "SELECT NAME FROM SURVEY" );
-	      
-	    //  dbName = rs.getInt(1); 
+	      rs = stmt.executeQuery("SELECT 1 FROM SURVEY WHERE SURVEY_NAME = '" + name + "'");
+			if(rs.next())
+				isUnique = !(rs.getInt(1) == 1);
 	      
 	      
 	      
@@ -567,7 +567,7 @@ public class survey_db implements db_interface{
 		    		JOptionPane.showMessageDialog(null, e.getMessage());
 		    	}
 		    }		
-		return sameName;
+		return isUnique;
 	}
 	
 	/* Determine the number of rows that are in a Result Set*/
