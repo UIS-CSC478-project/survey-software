@@ -1,5 +1,25 @@
-package surveysoftware;
+/*
+ * SurvGive
+ * version 1.0.1
+ * 11/28/2013
+ * Copyright (c) 2013 Lizard League Software
+ */
 
+/**
+ *  
+   Shows window after click of the button Give Survey from the Choice class..
+   
+   Shows a list of all survey questions and their possible answers.
+   
+   Holds blank text fields that users can enter answers into.
+   
+   Holds 2 Done buttons, one at the top of the survey and one at the bottom.
+         
+    Requirements: 1.5.0, 1.5.1, 1.5.2,
+    			1.5.3, 1.5.5, 1.5.6, 5.4.0
+ * */
+
+package surveysoftware;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -40,18 +60,20 @@ public class SurvGive extends JFrame {
 		mySurvey = new survey_actions();
 		initGUI();
 	}
-
-	public void initGUI() {
-		numQuestions = mySurvey.getNumberOfQuestions(mySurvey
-				.getSurveyID(surveyName));
+	
+	public void initGUI()
+	{	    
+		numQuestions = mySurvey.getNumberOfQuestions(mySurvey.getSurveyID(surveyName));
 		String postText = "";
-		// Get questions
+		//Get questions
 		allQuestions = mySurvey.getSurveyQuestionsAnswers(surveyName);
-
-		setBounds(0, 0, 600, 700);
+		
+		
+		
+		setBounds(0,0, 600, 700);
 		panel = new JPanel();
 		panel.setLayout(null);
-		panel.setPreferredSize(new Dimension(600, 700));
+		panel.setPreferredSize(new Dimension(600, 750));
 		setVisible(true);
 		scroller = new JScrollPane(panel);
 		text = new JTextArea[numQuestions];
@@ -63,12 +85,12 @@ public class SurvGive extends JFrame {
 		done.setBounds(254, 25, 138, 23);
 		done.addActionListener(new ButtonListener());
 		panel.add(done);
-
-		for (int i = 0; i < numQuestions; i++) {
-
-			/* Get the Text to post */
+		
+		for(int i = 0; i < numQuestions; i++){
+			
+			/*Get the Text to post */
 			oneQuesAns = (ArrayList) allQuestions.get(i);
-			// System.out.println(oneQuesAns);
+			//System.out.println(oneQuesAns);
 			postText = oneQuesAns.get(0) + "\n";
 			for (int j = 1; j < oneQuesAns.size() - 1; j++) {
 				if (j % 2 == 0)
@@ -145,9 +167,8 @@ public class SurvGive extends JFrame {
 			//At this point we have valid answers and we are good to go
 			for (int i = 0; i < numQuestions; i++) {
 				oneQuesAns = (ArrayList) allQuestions.get(i);
-				Integer num = Integer
-						.valueOf(oneQuesAns.get(oneQuesAns.size() - 1));
-				mySurvey.addResults(num, answer[i].getText().trim());
+				Integer num = Integer.valueOf(oneQuesAns.get(oneQuesAns.size()-1));
+				mySurvey.addResults(num, answer[i].getText());
 			}
 
 			setVisible(false); // back to main menu

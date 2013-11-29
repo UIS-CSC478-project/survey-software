@@ -1,9 +1,18 @@
 /*
  * survey_db
- * version 0.0.1
- * 10/8/2013
+ * version 1.0.1
+ * 11/28/2013
  * Copyright (c) 2013 Lizard League Software
  */
+
+/**
+ *  
+  	Class that implements the db_interface.db interface.  This class
+    will manipulate the data that goes in and out of the database.
+
+ 	Requirements:  2.0.0. 2.1.0, 2.1.1, 2.1.2, 2.1.3, 2.1.4, 2.1.5, 2.1.6, 5.0.0
+*/
+
 
 package surveysoftware;
 import java.io.File;
@@ -13,16 +22,6 @@ import java.util.ArrayList;
 //import ____________;
 
 import javax.swing.JOptionPane;
-
-/**
- *  
-  	Class that implements the db_interface.db interface.  This class
-    will manipulate the data that goes in and out of the database.
- *
- * @version      
-         0.0.1 Oct 8 2013  
- * @author          
-         Beth Kieler  */
 
 public class survey_db implements db_interface{
 	
@@ -38,7 +37,7 @@ public class survey_db implements db_interface{
 	
 	/* Create a new survey database with tables if the check4Db returns false. */
 	public void createDb(){
-		System.out.println("in createDb");
+		//System.out.println("in createDb");
 		Connection c = null;
 		Statement stmt = null;
 
@@ -358,40 +357,40 @@ public class survey_db implements db_interface{
 		return surveyNames;
 	}
 	
-	public int getNumQuestions(int surveyID){
-		System.out.println("in getNumQuestions");
-		int numquestions = 0;
-		
-		Connection c2 = null;
-	    Statement stmt2 = null;
-	    ResultSet rs2 = null;
-
-	    try {
-	      Class.forName("org.sqlite.JDBC");
-	      c2 = DriverManager.getConnection("jdbc:sqlite:surveydatabase.db");
-	      stmt2 = c2.createStatement();
-	      rs2 = stmt2.executeQuery( "SELECT COUNT(*) FROM SURVEY_QUESTION WHERE FK_S_ID = " + surveyID + ";" );
-	      numquestions = rs2.getInt(1);
-	      rs2.close();
-	      stmt2.close();
-	      c2.close();    
-	      
-	    } catch ( Exception e ) {
-	      System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-	      JOptionPane.showMessageDialog(null, e.getMessage());
-	    } finally {
-	    	try{
-	    		  rs2.close();
-		  	      stmt2.close();
-			      c2.close();
-			      
-		    	} catch (Exception e) {
-		    		JOptionPane.showMessageDialog(null, e.getMessage());
-		    		
-		    	}
-		  }
-		return numquestions;		
-	}
+//	public int getNumQuestions(int surveyID){
+//		System.out.println("in getNumQuestions");
+//		int numquestions = 0;
+//		
+//		Connection c2 = null;
+//	    Statement stmt2 = null;
+//	    ResultSet rs2 = null;
+//
+//	    try {
+//	      Class.forName("org.sqlite.JDBC");
+//	      c2 = DriverManager.getConnection("jdbc:sqlite:surveydatabase.db");
+//	      stmt2 = c2.createStatement();
+//	      rs2 = stmt2.executeQuery( "SELECT COUNT(*) FROM SURVEY_QUESTION WHERE FK_S_ID = " + surveyID + ";" );
+//	      numquestions = rs2.getInt(1);
+//	      rs2.close();
+//	      stmt2.close();
+//	      c2.close();    
+//	      
+//	    } catch ( Exception e ) {
+//	      System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+//	      JOptionPane.showMessageDialog(null, e.getMessage());
+//	    } finally {
+//	    	try{
+//	    		  rs2.close();
+//		  	      stmt2.close();
+//			      c2.close();
+//			      
+//		    	} catch (Exception e) {
+//		    		JOptionPane.showMessageDialog(null, e.getMessage());
+//		    		
+//		    	}
+//		  }
+//		return numquestions;		
+//	}
 	
 	
 	/* Returns an ArrayList of ArrayLists that holds the questions and possible answers*/

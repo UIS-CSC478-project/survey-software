@@ -1,3 +1,22 @@
+/*
+ * SurvRev
+ * version 1.0.1
+ * 11/28/2013
+ * Copyright (c) 2013 Lizard League Software
+ */
+/**
+ *  
+   Shows window after click of the button Review Survey from the Choice class..
+   
+   Shows a list of all survey questions and their possible answers.
+   
+   Holds text fields that users can enter answers into.
+   
+   Holds 2 Done buttons, one at the top of the survey and one at the bottom.
+         
+    Requirements: 1.4.0, 1.4.1, 1.4.2,
+    			1.4.3, 1.4.4, 5.4.0
+ * */
 package surveysoftware;
 import java.awt.*;
 import java.awt.event.ActionEvent;

@@ -1,16 +1,32 @@
-package surveysoftware;
-
-import java.util.ArrayList;
+/*
+ * survey_interface
+ * version 1.0.1
+ * 11/28/2013
+ * Copyright (c) 2013 Lizard League Software
+ */
 
 /**
  *  
    Interface that will hold the methods required by the class that 
-   will access the survey database.
- *
- * @version      
-         0.0.1 Oct 20 2013  
- * @author          
-         Beth Kieler  */
+   will access the survey database class: survey_actions.
+	
+	Requirements:  5.3.0
+   
+   */
+
+package surveysoftware;
+
+import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
+
+
 
 public interface survey_interface {
 	
@@ -28,6 +44,12 @@ public interface survey_interface {
 	
 	/* Returns a list of all Survey questions for a given Survey id*/
 	ArrayList getSurveyQuestionsAnswers(String surveyname);
+	
+
+	
+	
+	
+	
 	
 }
 

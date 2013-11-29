@@ -1,4 +1,21 @@
-                                                                                   package surveysoftware;
+/*
+ * survey_actions
+ * version 1.0.1
+ * 11/28/2013
+ * Copyright (c) 2013 Lizard League Software
+ */         
+
+/**
+ *  
+   Interface that will hold the methods required by the class that 
+   will access the survey database.
+	
+	Requirements:  5.1.0
+   
+   
+   */
+
+package surveysoftware;
 
 import java.util.ArrayList;
 
@@ -10,7 +27,7 @@ public class survey_actions implements survey_interface{
 		mydb = new survey_db();
 		dbExists = mydb.check4Db();
 		
-		//DELETE THE NEXT 4 LINES BEFORE GOING LIVE
+		//DELETE OR COMMENT OUT THE NEXT 4 LINES BEFORE GOING LIVE - FOR TESTING ONLY
 //		if (dbExists){
 //			System.out.println(" delete the old DB");
 //			mydb.deleteDB();

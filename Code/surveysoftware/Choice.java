@@ -1,3 +1,20 @@
+/*
+ * Choice
+ * version 1.0.1
+ * 11/28/2013
+ * Copyright (c) 2013 Lizard League Software
+ */
+
+/**
+ *  
+   First window that is shown after program starts.
+   
+   Holds the buttons Create Survey, add user, Lookup Survey, and Quit. 
+         
+    Requirements: 1.0.0, 1.1.0, 1.1.1, 1.1.2,
+    			1.1.3, 5.4.0
+ * */
+
 package surveysoftware;
 import java.awt.*;
 import javax.swing.JFrame;

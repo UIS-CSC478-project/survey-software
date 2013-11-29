@@ -1,9 +1,13 @@
 /*
  * survey_main
- * version 0.0.1
- * 10/8/2013
+ * version 1.0.1
+ * 11/28/2013
  * Copyright (c) 2013 Lizard League Software
  */
+
+/**
+   Calls the first window for the start of the program.
+ * */
 
 package surveysoftware;
 import java.awt.Container;
@@ -16,18 +20,7 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-/**
- *  
-         Class description goes here.
- *
- * @version      
-         0.0.1 Oct 8 2013  
- * @author          
-         Beth Kieler  */
-
 public class survey_main {
-
-
 	
 	public static void main(String[] args) { //This is the beginnging of the program
 		boolean dbExists;
@@ -39,7 +32,6 @@ public class survey_main {
 	} // END MAIN
 } //END SURVEY_MAIN
 	
-//	}
 	
 
 	

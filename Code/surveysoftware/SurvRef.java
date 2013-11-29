@@ -1,3 +1,19 @@
+/*
+ * SurvRef
+ * version 1.0.1
+ * 11/28/2013
+ * Copyright (c) 2013 Lizard League Software
+ */
+/**
+ *  
+   Shows window after click of the button Look Up Survey from the Choice Class..
+   
+   Holds the drop-down box for choosing a survey, and the buttons Review Survey and Give Survey. 
+         
+    Requirements: 1.3.0, 1.3.1, 1.3.2,
+    			1.3.3, 1.3.4, 5.4.0
+ * */
+
 package surveysoftware;
 import javax.swing.JFrame;
 import javax.swing.JLabel;

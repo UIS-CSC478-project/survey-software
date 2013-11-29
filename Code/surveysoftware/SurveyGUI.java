@@ -1,3 +1,25 @@
+/*
+ * SurveyGUI
+ * version 1.0.1
+ * 11/28/2013
+ * Copyright (c) 2013 Lizard League Software
+ */
+/**
+ *  
+   Shows window after click of the button Give Survey from the Choice Class.  
+   
+   Holds the text areas for survey name, the survey question, the possible answers for 
+   answers a, b, c, or d, and the correct answer.
+   
+   Holds the buttons for next question and done.   
+         
+    Requirements: 1.2.0, 1.2.1, 1.2.2,
+    			1.2.3, 1.2.4, 1.2.5, 1.2.6,
+    			1.2.7, 1.2.8, 1.2.9, 5.4.0
+ * */
+
+
+
 package surveysoftware;
 
 import javax.swing.JFrame;
