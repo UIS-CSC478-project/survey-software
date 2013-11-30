@@ -17,9 +17,9 @@ import org.junit.Test;
 
 import surveysoftware.survey_db;
 
-public class survey_db_test {
+public class Survey_Db_Test {
 
-	survey_db db = new survey_db();
+	Survey_Db db = new Survey_Db();
 	String surveyname = "Test Survey";
 	String questionName = "What is your name?";
 	
