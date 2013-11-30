@@ -26,14 +26,14 @@ public class SurvRef extends JFrame {
 	private JButton btnReviewSurvey, btnGiveSurvey, btnMainMenu;
 	private JLabel lblChooseSurveyFrom;
 	private JComboBox comboBox;
-	survey_actions mySurvey;
+	Survey_Actions mySurvey;
 	String surveyName;
 	
 	public SurvRef()   //This GUI allows user to choose a survey
 			   //and then choose to review or give the survey
 	{
 		//initGUI();
-		mySurvey = new survey_actions();
+		mySurvey = new Survey_Actions();
 	}
 
 

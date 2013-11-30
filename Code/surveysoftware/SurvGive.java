@@ -43,7 +43,7 @@ import surveysoftware.SurveyGUI.ButtonListener;
 public class SurvGive extends JFrame {
 
 	String surveyName;
-	survey_actions mySurvey;
+	Survey_Actions mySurvey;
 	ArrayList allQuestions;
 	private JScrollPane scroller;
 	private JPanel panel;
@@ -57,13 +57,13 @@ public class SurvGive extends JFrame {
 
 	public SurvGive(String s) {
 		surveyName = s;
-		mySurvey = new survey_actions();
+		mySurvey = new Survey_Actions();
 		initGUI();
 	}
 	
 	public void initGUI()
 	{	    
-		numQuestions = mySurvey.getNumberOfQuestions(mySurvey.getSurveyID(surveyName));
+		numQuestions = mySurvey.getNumberOfQuestions(mySurvey.getSurveyId(surveyName));
 		String postText = "";
 		//Get questions
 		allQuestions = mySurvey.getSurveyQuestionsAnswers(surveyName);

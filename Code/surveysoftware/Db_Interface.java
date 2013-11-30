@@ -26,7 +26,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 //import javax.swing.JOptionPane;
 
-public interface db_interface {
+public interface Db_Interface {
 
 
 	 /*
@@ -64,16 +64,16 @@ public interface db_interface {
 	public boolean check4Db();
 
 	/* Returns a true if the survey name already exists in the database.*/
-	public boolean checkUniqueSurveyName(String name);
+	//public boolean checkUniqueSurveyName(String name);
 
 	/* Create a new survey database with tables if the check4Db returns false: surveydatabase.db */
 	public void createDb();
 	
 	/* Delete the current database: surveydatabase.db */
-	public void deleteDB();
+	public void deleteDb();
 
 	/* Returns the id of the particular answer chosen.*/
-	public int getAnswerID(int quesID, String answer);	
+	public int getAnswerId(int quesID, String answer);	
 
 	/* Counts the number of questions that belong to a particular survey*/
 	public int getNumberOfQuestions(int surveyID);
@@ -82,7 +82,7 @@ public interface db_interface {
 	public int getResultSetNumRows(ResultSet rs);
 
 	/* Takes the name of the survey and returns the survey id from the database*/
-	public int getSurveyID(String newsurvey);
+	public int getSurveyId(String newsurvey);
 
 	/* Get a list of all the surveys that have been created so far*/
 	public ArrayList getSurveyNames();

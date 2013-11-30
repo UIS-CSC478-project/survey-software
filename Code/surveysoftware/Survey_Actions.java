@@ -19,95 +19,109 @@ package surveysoftware;
 
 import java.util.ArrayList;
 
-public class survey_actions implements survey_interface{
-	survey_db mydb;
+public class Survey_Actions implements Survey_Interface{
+	Survey_Db myDB;
 	
-	public survey_actions(){
+	public Survey_Actions(){
+		/* If survey database doesn't exist, create a new one */
 		boolean dbExists = false;
-		mydb = new survey_db();
-		dbExists = mydb.check4Db();
+		myDB = new Survey_Db();
+		dbExists = myDB.check4Db();
 		
 		//DELETE OR COMMENT OUT THE NEXT 4 LINES BEFORE GOING LIVE - FOR TESTING ONLY
 //		if (dbExists){
 //			System.out.println(" delete the old DB");
-//			mydb.deleteDB();
+//			myDB.deleteDB();
 //		}
-//		dbExists = mydb.check4Db();
+//		dbExists = myDB.check4Db();
 		//////////////////////////////////////////
 		
 		if (!dbExists){
-			mydb.createDb();
+			myDB.createDb();
 		}
 	}
 	
-	/* Collects the survey name and calls the database function to add it to the database. */
+	/* Collects the survey name and calls the database function to add it to the database. 
+	 * 
+	 * Requirements:  3.5.0
+	 * */
+	
 	public void addNewSurvey(String surveyName){
-			mydb.addNewSurvey(surveyName);	
+			myDB.addNewSurvey(surveyName);	
 	}
 	
-	/* Collects the questions and answers and calls the database function to add them to the database. */
-	public void addNewQuestionWithAnswer(ArrayList <String> questionanswer, int numanswers){
-		mydb.addNewQuestionWithAnswer(questionanswer, numanswers);
+	/* Collects the questions and answers and calls the database function to add them to the database. 
+	 * 
+	 * Requirements: 3.0.0, 3.1.0, 3.4.0, 3.6.0
+	 * */
+	public void addNewQuestionWithAnswer(ArrayList <String> questionAnswer, int numAnswers){
+		myDB.addNewQuestionWithAnswer(questionAnswer, numAnswers);
 	}
 	
-	/* Not active yet at this time.  Will use to collect respondent information.*/
+	/* Not active yet at this time.  Will use to collect respondent information.
+	 * 
+	 * Requirements: 4.5.0
+	 * */
 	public void addNewRespondent(){
 		
 	}
 	
 	/* Collect results from users taking survey and send to the database function.
 	 * This one is for one letter result with no additional text
+	 * 
 	 * */
-	public void addResults(int quesID, String answer){
+	public void addResults(int quesId, String answer){
 		//in the action performed will be a line like 
 		// mysurvey.addNewSurvey(surveyName.getText());
-		mydb.addResults(quesID, answer);		
+		myDB.addResults(quesId, answer);		
 	}
 	
 	/* Collect results from users taking survey and send to the database function.
 	 * This one is for one letter result with additional text
 	 * */
-	public void addResults(int quesID, String answer, String other){
+	public void addResults(int quesId, String answer, String other){
 		//in the action performed will be a line like 
 		// mysurvey.addNewSurvey(surveyName.getText());
-		mydb.addResults(quesID, answer, other);		
+		myDB.addResults(quesId, answer, other);		
 	}
 	
-	public int getSurveyID(String surveyName){
-		return mydb.getSurveyID(surveyName);
-		
+	/* Return the survey ID */
+	public int getSurveyId(String surveyName){
+		return myDB.getSurveyId(surveyName);
 	}
 	
-	public int getNumberOfQuestions(int surveyID){
-		return mydb.getNumberOfQuestions(surveyID);		
+	/* Return the number of questions present in a survey */
+	public int getNumberOfQuestions(int surveyId){
+		return myDB.getNumberOfQuestions(surveyId);		
 	}
 	
-	/* Returns an ArrayList of ArrayLists of all Survey questions plus answers for a given Survey id*/
+	/* Returns an ArrayList of ArrayLists of all Survey questions plus answers for a given Survey id
+	 * 
+	 * Requirements: 4.4.0
+	 * */
 	public ArrayList getSurveyQuestionsAnswers(String surveyName){
-		ArrayList surveyQuestions = mydb.getSurveyQuestionsAnswers(mydb.getSurveyID(surveyName));
+		ArrayList surveyQuestions = myDB.getSurveyQuestionsAnswers(myDB.getSurveyId(surveyName));
 		return surveyQuestions;
 	}	
 	
-	public boolean checkUniquesurveyName(String name){
-		return mydb.checkUniqueSurveyName(name);
-	}
+	/* Returns true if the survey name already exists*/
+//	public boolean checkUniquesurveyName(String name){
+//		return myDB.checkUniqueSurveyName(name);
+//	}
 	
 	public String[] getSurveyNames(){
-		ArrayList surveyNames = mydb.getSurveyNames();
+		ArrayList surveyNames = myDB.getSurveyNames();
 		String[] surveyNameArray = new String[surveyNames.size()];
 		surveyNameArray = (String[]) surveyNames.toArray(surveyNameArray);
 		return surveyNameArray;
 	}
 	
-	public void addSurveyAnswers(){
-		
-		
-	}
 	
-	public boolean survey_exists(String surveyName){
+	/* Returns true if the survey name already exists  */
+	public boolean survey_Exists(String surveyName){
 		boolean match = false;
 		
-		ArrayList allNames = mydb.getSurveyNames();
+		ArrayList allNames = myDB.getSurveyNames();
 		
 		for(int i = 0; i < allNames.size(); i++){
 			if (surveyName.equals(allNames.get(i))){
@@ -116,5 +130,4 @@ public class survey_actions implements survey_interface{
 		}
 		return match;
 	}
-	
 }

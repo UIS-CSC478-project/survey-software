@@ -42,7 +42,7 @@ public class SurveyGUI extends JFrame {  //GUI used to create survey
 	private JLabel lblNewSurvey, lblSurveyName, lblQuestion;
 	private JLabel lblA, lblB, lblC, lblD, lblAns;
 	private JTextArea surveyName, Question, quesA, quesB, quesC, quesD, corAns;
-	survey_actions mysurvey = new survey_actions();
+	Survey_Actions mysurvey = new Survey_Actions();
 	
 	
 	public SurveyGUI() {
@@ -153,37 +153,36 @@ public class SurveyGUI extends JFrame {  //GUI used to create survey
 		@Override
 		public void actionPerformed(ActionEvent e) 
 		{		
+			ArrayList QA = new ArrayList(); //holds the question and answers from the form.
 			
+			/*check if the survey name exists */
+			if(!mysurvey.survey_Exists(surveyName.getText())){
+				mysurvey.addNewSurvey(surveyName.getText()); //if survey name doesn't already exist, add
+			}											     // the survey name to the db.
 			
-			ArrayList QA = new ArrayList();
+			//Add the data relating to the question to the QA arraylist.
 			
-			if(!mysurvey.survey_exists(surveyName.getText())){
-				mysurvey.addNewSurvey(surveyName.getText());
-			}
-			
-			QA.add(mysurvey.getSurveyID(surveyName.getText()));
-			
-			int numAnswers = 2;
+			QA.add(mysurvey.getSurveyId(surveyName.getText()));
 			QA.add(Question.getText());
 			QA.add(corAns.getText());
-			
 			QA.add("a");
 			QA.add(quesA.getText());
 			QA.add("b");
 			QA.add(quesB.getText());
 			
+			int numAnswers = 2; //a minimum of 2 possible answers are required.
 			if (quesC.getText().trim().length() != 0 ){
 				QA.add("c");
 				QA.add(quesC.getText());
 				numAnswers++;
 			}
-			
 			if (quesD.getText().trim().length() != 0){
 				QA.add("d");
 				QA.add(quesD.getText());
 				numAnswers++;
 			}
 			
+			//Add the data collected from the form to the database.
 			mysurvey.addNewQuestionWithAnswer(QA, numAnswers);
 			
 			if(e.getSource()==btnNextQues)
@@ -203,12 +202,7 @@ public class SurveyGUI extends JFrame {  //GUI used to create survey
 				chc.initChoice();
 			}
 			else
-				setVisible(false);
-	             
-		}
-		
+				setVisible(false);        
+		}	
 	}
-		
-		
-	
 }

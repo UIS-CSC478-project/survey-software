@@ -29,7 +29,7 @@ import surveysoftware.SurvGive.ButtonListener;
 public class SurvRev extends JFrame {
 	
 	String surveyName;
-	survey_actions mySurvey;
+	Survey_Actions mySurvey;
 	private JScrollPane scroller;
 	private JPanel panel;
 	private JTextArea[] text;
@@ -37,13 +37,13 @@ public class SurvRev extends JFrame {
 	
 	public SurvRev(String s) {
 	    surveyName = s;
-		mySurvey = new survey_actions();
+		mySurvey = new Survey_Actions();
 		initGUI();
 	}
 	
 	public void initGUI()
 	{
-		int numQuestions = mySurvey.getNumberOfQuestions(mySurvey.getSurveyID(surveyName));
+		int numQuestions = mySurvey.getNumberOfQuestions(mySurvey.getSurveyId(surveyName));
 		String postText = "";
 		setSize(600,700);
 		panel = new JPanel();

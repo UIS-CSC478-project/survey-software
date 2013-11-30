@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-public class survey_main {
+public class Survey_Main {
 	
 	public static void main(String[] args) { //This is the beginnging of the program
 		boolean dbExists;
