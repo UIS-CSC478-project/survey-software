@@ -76,16 +76,13 @@ public void initGUI()
 }
 	public class ButtonListener implements ActionListener
 	{
-		
 		public void actionPerformed(ActionEvent e) 
-		{
-			
+		{		
 			if(e.getSource()==btnReviewSurvey)  //Review selected survey
 			{
 				setVisible(false);
 				SurvRev svr = new SurvRev((String)comboBox.getSelectedItem());
-				//svr.initGUI();
-				
+				//svr.initGUI();		
 			}
 			else if(e.getSource()==btnGiveSurvey) //Give selected survey
 			{

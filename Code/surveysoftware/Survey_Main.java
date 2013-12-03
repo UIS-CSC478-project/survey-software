@@ -1,5 +1,5 @@
 /*
- * survey_main
+ * Survey_Main
  * version 1.0.1
  * 11/28/2013
  * Copyright (c) 2013 Lizard League Software
@@ -10,19 +10,18 @@
  * */
 
 package surveysoftware;
-import java.awt.Container;
-import java.awt.event.*;
-import java.awt.FlowLayout;
-import java.sql.*;
+//import java.awt.Container;
+//import java.awt.event.*;
+//import java.awt.FlowLayout;
+//import java.sql.*;
 //import ____________;
 //import ____________;
-import java.util.ArrayList;
-
-import javax.swing.*;
+//import java.util.ArrayList;
+//import javax.swing.*;
 
 public class Survey_Main {
 	
-	public static void main(String[] args) { //This is the beginnging of the program
+	public static void main(String[] args) { //This is the beginning of the program
 		boolean dbExists;
 		
 		Choice askusr = new Choice(); //Direct program to main menu seeking user direction

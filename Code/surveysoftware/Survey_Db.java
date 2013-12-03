@@ -1,5 +1,5 @@
 /*
- * survey_db
+ * Survey_Db
  * version 1.0.1
  * 11/28/2013
  * Copyright (c) 2013 Lizard League Software
