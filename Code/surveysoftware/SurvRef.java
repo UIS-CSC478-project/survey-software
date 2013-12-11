@@ -23,7 +23,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class SurvRef extends JFrame {
-	private JButton btnReviewSurvey, btnGiveSurvey, btnMainMenu;
+	private JButton btnReviewSurvey, btnGiveSurvey, btnMainMenu, btnSurveyResults;
 	private JLabel lblChooseSurveyFrom;
 	private JComboBox comboBox;
 	Survey_Actions mySurvey;
@@ -63,11 +63,15 @@ public void initGUI()
 	btnMainMenu.setBounds(156, 171, 106, 23);
 	getContentPane().add(btnMainMenu);
 	
+	btnSurveyResults = new JButton("Survey Results");
+	btnSurveyResults.setBounds(138, 119, 123, 23);
+	getContentPane().add(btnSurveyResults);
+	
 	//comboBox.addActionListener(new ButtonListener());
 	btnReviewSurvey.addActionListener(new ButtonListener());
 	btnGiveSurvey.addActionListener(new ButtonListener());
 	btnMainMenu.addActionListener(new ButtonListener()); 
-	
+	btnSurveyResults.addActionListener(new ButtonListener());
 	
 	String[] allSurveys = mySurvey.getSurveyNames();
 	for(int i = 0; i < allSurveys.length; i++){
@@ -90,11 +94,16 @@ public void initGUI()
 				SurvGive svg = new SurvGive((String)comboBox.getSelectedItem());	
 				//svg.initGUI();
 			}
-			else
-			{
+			else if(e.getSource()==btnMainMenu){
 				setVisible(false);  //back to main menu
 				Choice chc = new Choice();
 				chc.initChoice();
+			}
+			else
+			{
+				setVisible(false);  //Display survey results
+				SurvResults srvRes = new SurvResults();
+				srvRes.initGui();
 			}
 		}		
      }
