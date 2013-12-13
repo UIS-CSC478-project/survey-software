@@ -39,7 +39,7 @@ public class SurvRef extends JFrame {
 
 public void initGUI()
 {
-	setSize(428, 264);
+	setSize(412, 264);
 	setResizable(false);
 	getContentPane().setLayout(null);
 	
@@ -52,15 +52,15 @@ public void initGUI()
 	getContentPane().add(lblChooseSurveyFrom);
 	
 	btnReviewSurvey = new JButton("Review Survey"); //After choosing survey button opens up survey for review
-	btnReviewSurvey.setBounds(70, 119, 118, 23);
+	btnReviewSurvey.setBounds(10, 119, 118, 23);
 	getContentPane().add(btnReviewSurvey);
 	
 	btnGiveSurvey = new JButton("Give Survey"); //After choosing survey button opens up survey to give
-	btnGiveSurvey.setBounds(214, 119, 113, 23);
+	btnGiveSurvey.setBounds(271, 119, 113, 23);
 	getContentPane().add(btnGiveSurvey);
 	
 	btnMainMenu = new JButton("Main Menu");  //button directs program back to main menu
-	btnMainMenu.setBounds(156, 171, 106, 23);
+	btnMainMenu.setBounds(138, 169, 123, 23);
 	getContentPane().add(btnMainMenu);
 	
 	btnSurveyResults = new JButton("Survey Results");
