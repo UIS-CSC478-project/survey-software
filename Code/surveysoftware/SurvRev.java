@@ -43,23 +43,27 @@ public class SurvRev extends JFrame {
 	
 	public void initGUI()
 	{
-		int numQuestions = mySurvey.getNumberOfQuestions(mySurvey.getSurveyId(surveyName));
-		String postText = "";
 		setSize(600,700);
 		panel = new JPanel();
 		panel.setLayout(new GridLayout(32, 1,10,10));
 		setVisible(true);
 		scroller = new JScrollPane(panel);
-		text = new JTextArea[numQuestions];
+		
 		done = new JButton("Done");
 		done.setBounds(254, 25, 138, 23);
 		done.addActionListener(new ButtonListener());
 		getContentPane().add(scroller, BorderLayout.CENTER);
+		panel.add(done);
+		panel.add(new JLabel(surveyName));
+
+
+		int numQuestions = mySurvey.getNumberOfQuestions(mySurvey.getSurveyId(surveyName));
+		String postText = "";
+		text = new JTextArea[numQuestions];
+		
 		int i;
 		//Get questions
 		ArrayList allQuestions = mySurvey.getSurveyQuestionsAnswers(surveyName);
-		panel.add(done);
-		panel.add(new JLabel(surveyName));
 		for(i = 0; i < numQuestions; i++){
 			ArrayList <String> temp = (ArrayList) allQuestions.get(i);
 			postText = temp.get(0) + "\n";

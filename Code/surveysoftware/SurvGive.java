@@ -69,21 +69,25 @@ public class SurvGive extends JFrame {
 		allQuestions = mySurvey.getSurveyQuestionsAnswers(surveyName);
 		
 		
-		
-		setBounds(0,0, 600, 700);
+		setSize(600,700);
+		//setBounds(0,0, 600, 700);
 		panel = new JPanel();
-		panel.setLayout(null);
-		panel.setPreferredSize(new Dimension(600, 750));
+		panel.setLayout(new GridLayout(32, 1,10,10));
 		setVisible(true);
+//		panel.setPreferredSize(new Dimension(600, 750));
 		scroller = new JScrollPane(panel);
+		done = new JButton("Done");
+		done.setBounds(254, 25, 138, 23);
 		text = new JTextArea[numQuestions];
 		answer = new JTextField[numQuestions];
 		survey = new JLabel(surveyName);
-		survey.setBounds(10, 25, 138, 23);
-		panel.add(survey);
-		done = new JButton("Done");
-		done.setBounds(254, 25, 138, 23);
+		
+	//	survey.setBounds(10, 25, 138, 23);
+	//	panel.add(survey);
+		
+		
 		done.addActionListener(new ButtonListener());
+		getContentPane().add(scroller, BorderLayout.CENTER);
 		panel.add(done);
 		
 		for(int i = 0; i < numQuestions; i++){

@@ -11,7 +11,7 @@
    Holds the drop-down box for choosing a survey, and the buttons Review Survey and Give Survey. 
          
     Requirements: 1.3.0, 1.3.1, 1.3.2,
-    			1.3.3, 1.3.4, 5.4.0
+    			1.3.3, 1.3.4, 1.3.5, 5.4.0
  * */
 
 package surveysoftware;
@@ -102,7 +102,7 @@ public void initGUI()
 			else
 			{
 				setVisible(false);  //Display survey results
-				SurvResults srvRes = new SurvResults();
+				SurvResults srvRes = new SurvResults((String)comboBox.getSelectedItem());
 				srvRes.initGui();
 			}
 		}		

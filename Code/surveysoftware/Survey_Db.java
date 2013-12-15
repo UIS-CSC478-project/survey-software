@@ -37,7 +37,6 @@ public class Survey_Db implements Db_Interface{
 	
 	/* Create a new survey database with tables if the check4Db returns false. */
 	public void createDb(){
-		//System.out.println("in createDb");
 		Connection c = null;
 		Statement stmt = null;
 
@@ -101,7 +100,6 @@ public class Survey_Db implements Db_Interface{
 	 * Requirements: 2.1.0, 2.1.1, 3.5.0
 	 * */
 	public void addNewSurvey(String mysurveyname){
-		System.out.println("in addNewSurvey");
 		Connection c = null;
 	    Statement stmt = null;
 	    try {
@@ -142,7 +140,6 @@ public class Survey_Db implements Db_Interface{
 	 * Requirements: 2.1.2, 2.1.3, 2.1.4, 3.0.0, 3.1.0, 3.4.0, 3.6.0 
 	 */
 	public void addNewQuestionWithAnswer(ArrayList questionanswer, int numanswers){
-		System.out.println("in addNewQuestionWithAnswer");
 		Connection c = null;
 	    Statement stmt = null;
 	    ResultSet rs = null;
@@ -245,8 +242,6 @@ public class Survey_Db implements Db_Interface{
 	      c.setAutoCommit(false);
 	      stmt = c.createStatement();
 	      
-	      System.out.println("answerID:  " + pAnswerID);
-	      System.out.println("quesID:  " + quesID);
 	      String sql = "INSERT INTO Answers " 
 	          + "(FK_Q_ID, FK_PA_ID) "
 	          + "VALUES "
@@ -279,7 +274,6 @@ public class Survey_Db implements Db_Interface{
 	 * Requirements: 2.1.5
 	 * */
 	public void addResults(int quesID, String answer, String other){
-		System.out.println("in addResults with other text");
 		//in the action performed will be a line like 
 		// mysurvey.addNewSurvey(surveyName.getText());
 		int pAnswerID = getAnswerId(quesID, answer);
@@ -327,7 +321,6 @@ public class Survey_Db implements Db_Interface{
 	
 	/* Get a list of all the surveys that have been created so far*/
 	public ArrayList getSurveyNames(){
-		System.out.println("in getSurveyNames");
 		ArrayList surveyNames = new ArrayList();
 		
 		Connection c = null;
@@ -344,7 +337,6 @@ public class Survey_Db implements Db_Interface{
 	    	  
 	    	   surveyNames.add(rs.getString("SURVEY_NAME"));
 	    	}
-	      System.out.println(surveyNames);
 	      
 	      rs.close();
 	      stmt.close();
@@ -369,7 +361,7 @@ public class Survey_Db implements Db_Interface{
 	}
 	
 //	public int getNumQuestions(int surveyID){
-//		System.out.println("in getNumQuestions");
+//		
 //		int numquestions = 0;
 //		
 //		Connection c2 = null;
@@ -426,7 +418,6 @@ public class Survey_Db implements Db_Interface{
 		      stmtQuestions = c.createStatement();
 		      stmtAnswers = c.createStatement();
 		      rsQuestions = stmtQuestions.executeQuery( "SELECT Q_ID, QUESTION_TEXT FROM Survey_Question WHERE Survey_Question.FK_S_ID = '" + surveyID + "';");
-
 		      int questionscounter = 0;
 		      int id;
 		      String idStr;
@@ -448,8 +439,7 @@ public class Survey_Db implements Db_Interface{
 				 tempArray.add(idStr);   
 		         questionscounter ++; 
 		         myLists.add(tempArray);   
-		      }
-		            
+		      }     
 		      stmtQuestions.close();
 		      stmtAnswers.close();
 		      c.close();   
@@ -477,7 +467,6 @@ public class Survey_Db implements Db_Interface{
 	
 	/* Takes the name of the survey and returns the survey id from the database*/
 	public int getSurveyId(String newsurvey){
-		//System.out.println("in getSurveyID");
 		Connection c = null;
 	    Statement stmt = null;
 	    ResultSet rs = null;
@@ -510,8 +499,6 @@ public class Survey_Db implements Db_Interface{
 	
 	/* Counts the number of questions that belong to a particular survey*/
 	public int getNumberOfQuestions(int surveyID){
-		
-		System.out.println("in getNumberOfQuestions");
 		Connection c = null;
 	    Statement stmt = null;
 	    ResultSet rs = null;
@@ -545,7 +532,7 @@ public class Survey_Db implements Db_Interface{
 	
 	/* Returns a true if the survey name already exists in the database.*/
 //	public boolean checkUniqueSurveyName(String name){
-//		//System.out.println("in checkUniqueSurveyName");
+//	
 //		boolean isUnique = true;
 //
 //		Connection c = null;
@@ -585,7 +572,6 @@ public class Survey_Db implements Db_Interface{
 	
 	/* Determine the number of rows that are in a Result Set*/
 	public int getResultSetNumRows(ResultSet rs){
-		System.out.println("in getResultSetNumrows");
 		int count = 0;
 		try {
 			while ( rs.next() )  
@@ -602,7 +588,7 @@ public class Survey_Db implements Db_Interface{
 	
 	/* Returns the id of the particular answer chosen.*/
 	public int getAnswerId(int quesID, String answer){
-		//System.out.println("in getAnswerID");
+
 		Connection c = null;
 	    Statement stmt = null;
 	    ResultSet rs = null;
