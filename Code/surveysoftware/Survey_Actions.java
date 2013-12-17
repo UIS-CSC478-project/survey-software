@@ -97,12 +97,21 @@ public class Survey_Actions implements Survey_Interface{
 	
 	/* Returns an ArrayList of ArrayLists of all Survey questions plus answers for a given Survey id
 	 * 
-	 * Requirements: 4.4.0
+	 * Requirements: 3.9.0, 4.1.0
 	 * */
 	public ArrayList getSurveyQuestionsAnswers(String surveyName){
 		ArrayList surveyQuestions = myDB.getSurveyQuestionsAnswers(myDB.getSurveyId(surveyName));
 		return surveyQuestions;
 	}	
+	
+	/* Returns an ArrayList of ArrayLists of all Survey questions plus the results for each answer.
+	 * 
+	 * Requirements: 4.4.0
+	 * */
+	public ArrayList getSurveyResults(String surveyName){
+		ArrayList surveyResults = myDB.getSurveyQuestionsResults(myDB.getSurveyId(surveyName));
+		return surveyResults;
+	}
 	
 	/* Returns true if the survey name already exists*/
 //	public boolean checkUniquesurveyName(String name){

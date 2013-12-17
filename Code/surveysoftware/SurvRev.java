@@ -31,7 +31,7 @@ public class SurvRev extends JFrame {
 	String surveyName;
 	Survey_Actions mySurvey;
 	private JScrollPane scroller;
-	private JPanel panel;
+	private JPanel panel, headerPanel, bodyPanel, footerPanel;
 	private JTextArea[] text;
 	private JButton done, done2;
 	
@@ -43,18 +43,28 @@ public class SurvRev extends JFrame {
 	
 	public void initGUI()
 	{
-		setSize(600,700);
-		panel = new JPanel();
-		panel.setLayout(new GridLayout(32, 1,10,10));
-		setVisible(true);
-		scroller = new JScrollPane(panel);
-		
-		done = new JButton("Done");
-		done.setBounds(254, 25, 138, 23);
-		done.addActionListener(new ButtonListener());
-		getContentPane().add(scroller, BorderLayout.CENTER);
-		panel.add(done);
-		panel.add(new JLabel(surveyName));
+	    headerPanel = new JPanel();
+	    bodyPanel = new JPanel();
+	    footerPanel = new JPanel();
+	    
+	    done = new JButton("Done");
+	    done2 = new JButton("Done");
+	    headerPanel.add(done);
+	    footerPanel.add(done2);
+	    done.addActionListener(new ButtonListener());
+	    done2.addActionListener(new ButtonListener());
+
+	    setLayout(new BorderLayout());
+	    setTitle(surveyName);
+	    setSize(600,450);
+	    scroller = new JScrollPane(bodyPanel);
+	    
+	    add(headerPanel,BorderLayout.NORTH);
+	    add(scroller,BorderLayout.CENTER);
+	    add(footerPanel,BorderLayout.SOUTH);
+	    bodyPanel.setBounds(0,100, 600, 500);
+	    bodyPanel.setLayout(new GridLayout(32, 1,10,10));
+	    setVisible(true);
 
 
 		int numQuestions = mySurvey.getNumberOfQuestions(mySurvey.getSurveyId(surveyName));
@@ -79,15 +89,8 @@ public class SurvRev extends JFrame {
 			
 			text[i].setEditable(false);
 			text[i].setColumns(1);
-			panel.add(text[i]);
+			bodyPanel.add(text[i]);
 		}
-		done2 = new JButton("Done");
-		done2.setBounds(254, text[i].getY() + 30, 138, 23);
-		done2.addActionListener(new ButtonListener());
-		panel.add(done2);
-	    scroller = new JScrollPane(panel);
-	    getContentPane().add(scroller, BorderLayout.CENTER);
-
 	}//END INITGUI
 
 	public class ButtonListener implements ActionListener

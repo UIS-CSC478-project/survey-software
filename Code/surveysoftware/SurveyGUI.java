@@ -136,7 +136,7 @@ public class SurveyGUI extends JFrame {  //GUI used to create survey
 		corAns.setBounds(54, 611, 46, 22);
 		getContentPane().add(corAns);
 		
-		btnNextQues = new JButton("Next Question");  //Move to next question
+		btnNextQues = new JButton("Submit Question");  //Move to next question
 		btnNextQues.setBounds(114, 653, 139, 23);
 		getContentPane().add(btnNextQues);
 		btnNextQues.addActionListener(new ButtonListener()); 
@@ -153,48 +153,48 @@ public class SurveyGUI extends JFrame {  //GUI used to create survey
 		@Override
 		public void actionPerformed(ActionEvent e) 
 		{		
-			ArrayList QA = new ArrayList(); //holds the question and answers from the form.
-			
-			/*check if the survey name exists */
-			if(!mysurvey.survey_Exists(surveyName.getText())){
-				mysurvey.addNewSurvey(surveyName.getText()); //if survey name doesn't already exist, add
-			}											     // the survey name to the db.
-			
-			//Add the data relating to the question to the QA arraylist.
-			
-			QA.add(mysurvey.getSurveyId(surveyName.getText()));
-			QA.add(Question.getText());
-			QA.add(corAns.getText());
-			QA.add("a");
-			QA.add(quesA.getText());
-			QA.add("b");
-			QA.add(quesB.getText());
-			
-			int numAnswers = 2; //a minimum of 2 possible answers are required.
-			if (quesC.getText().trim().length() != 0 ){
-				QA.add("c");
-				QA.add(quesC.getText());
-				numAnswers++;
-			}
-			if (quesD.getText().trim().length() != 0){
-				QA.add("d");
-				QA.add(quesD.getText());
-				numAnswers++;
-			}
-			
-			//Add the data collected from the form to the database.
-			mysurvey.addNewQuestionWithAnswer(QA, numAnswers);
-			
 			if(e.getSource()==btnNextQues)
 			{			
-			Question.setText(null);
-			//surveyName.setText(null);
-			quesA.setText(null);
-			quesB.setText(null);
-			quesC.setText(null);
-			quesD.setText(null);
-			corAns.setText(null);
-		        }
+				ArrayList QA = new ArrayList(); //holds the question and answers from the form.
+				
+				/*check if the survey name exists */
+				if(!mysurvey.survey_Exists(surveyName.getText())){
+					mysurvey.addNewSurvey(surveyName.getText()); //if survey name doesn't already exist, add
+				}											     // the survey name to the db.
+				
+				//Add the data relating to the question to the QA arraylist.
+				
+				QA.add(mysurvey.getSurveyId(surveyName.getText()));
+				QA.add(Question.getText());
+				QA.add(corAns.getText());
+				QA.add("a");
+				QA.add(quesA.getText());
+				QA.add("b");
+				QA.add(quesB.getText());
+				
+				int numAnswers = 2; //a minimum of 2 possible answers are required.
+				if (quesC.getText().trim().length() != 0 ){
+					QA.add("c");
+					QA.add(quesC.getText());
+					numAnswers++;
+				}
+				if (quesD.getText().trim().length() != 0){
+					QA.add("d");
+					QA.add(quesD.getText());
+					numAnswers++;
+				}
+				
+				//Add the data collected from the form to the database.
+				mysurvey.addNewQuestionWithAnswer(QA, numAnswers);
+				
+				Question.setText(null);
+				//surveyName.setText(null);
+				quesA.setText(null);
+				quesB.setText(null);
+				quesC.setText(null);
+				quesD.setText(null);
+				corAns.setText(null);
+	        }
 			else if(e.getSource()==btnDone)
 			{
 				setVisible(false);

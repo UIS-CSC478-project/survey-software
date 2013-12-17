@@ -18,9 +18,6 @@ package surveysoftware;
 import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
-//import ____________;
-//import ____________;
-
 import javax.swing.JOptionPane;
 
 public class Survey_Db implements Db_Interface{
@@ -108,7 +105,7 @@ public class Survey_Db implements Db_Interface{
 	      c.setAutoCommit(false);
 	      stmt = c.createStatement();
 	      String sql = "INSERT INTO Survey (SURVEY_NAME) " +
-	                   "VALUES ('" + mysurveyname + "')"; 
+	                   "VALUES ('" + mysurveyname + "');"; 
 	      stmt.executeUpdate(sql);
 	      c.commit();
 	      stmt.close();
@@ -155,9 +152,9 @@ public class Survey_Db implements Db_Interface{
 	          + "VALUES "
 	          + "('" + questionanswer.get(0)   + "',"
 	          + "'" + (String) questionanswer.get(1) + "',"
-	          + "'" + (String) questionanswer.get(2) + "')";
+	          + "'" + (String) questionanswer.get(2) + "');";
 	      stmt.executeUpdate(sql);
-	      rs = stmt.executeQuery("SELECT Q_ID FROM Survey_Question WHERE QUESTION_TEXT = '" + questionanswer.get(1) + "'");
+	      rs = stmt.executeQuery("SELECT Q_ID FROM Survey_Question WHERE QUESTION_TEXT = '" + questionanswer.get(1) + "';");
 	      int newqid = rs.getInt(1); 
 	      
     	  sql = "INSERT INTO Possible_Answers "
@@ -173,7 +170,7 @@ public class Survey_Db implements Db_Interface{
 	          + "VALUES "
 	          + "('" + newqid   + "',"
 	          + "'" + (String) questionanswer.get(5) + "',"
-	          + "'" + (String) questionanswer.get(6) + "')";
+	          + "'" + (String) questionanswer.get(6) + "');";
     	  stmt.executeUpdate(sql);  
 	      if(numanswers > 2){
 	    	  sql = "INSERT INTO Possible_Answers "
@@ -181,7 +178,7 @@ public class Survey_Db implements Db_Interface{
 		          + "VALUES "
 		          + "('" + newqid   + "',"
 		          + "'" + (String) questionanswer.get(7) + "',"
-		          + "'" + (String) questionanswer.get(8) + "')";
+		          + "'" + (String) questionanswer.get(8) + "');";
 	    	  stmt.executeUpdate(sql);  
 	      }
 	      
@@ -191,7 +188,7 @@ public class Survey_Db implements Db_Interface{
 		          + "VALUES "
 		          + "('" + newqid   + "',"
 		          + "'" + (String) questionanswer.get(9) + "',"
-		          + "'" + (String) questionanswer.get(10) + "')";
+		          + "'" + (String) questionanswer.get(10) + "');";
 	    	  stmt.executeUpdate(sql);  
 	      }
 	      
@@ -360,45 +357,10 @@ public class Survey_Db implements Db_Interface{
 		return surveyNames;
 	}
 	
-//	public int getNumQuestions(int surveyID){
-//		
-//		int numquestions = 0;
-//		
-//		Connection c2 = null;
-//	    Statement stmt2 = null;
-//	    ResultSet rs2 = null;
-//
-//	    try {
-//	      Class.forName("org.sqlite.JDBC");
-//	      c2 = DriverManager.getConnection("jdbc:sqlite:surveydatabase.db");
-//	      stmt2 = c2.createStatement();
-//	      rs2 = stmt2.executeQuery( "SELECT COUNT(*) FROM Survey_Question WHERE FK_S_ID = " + surveyID + ";" );
-//	      numquestions = rs2.getInt(1);
-//	      rs2.close();
-//	      stmt2.close();
-//	      c2.close();    
-//	      
-//	    } catch ( Exception e ) {
-//	      System.err.println( e.getClass().getName() + ": " + e.getMessage() );
-//	      JOptionPane.showMessageDialog(null, e.getMessage());
-//	    } finally {
-//	    	try{
-//	    		  rs2.close();
-//		  	      stmt2.close();
-//			      c2.close();
-//			      
-//		    	} catch (Exception e) {
-//		    		JOptionPane.showMessageDialog(null, e.getMessage());
-//		    		
-//		    	}
-//		  }
-//		return numquestions;		
-//	}
-	
 	
 	/* Returns an ArrayList of ArrayLists that holds the questions and possible answers
 	 * 
-	 * Requirements: 4.4.0
+	 * Requirements: 3.9.0, 4.1.0
 	 * */
 	
 	public ArrayList getSurveyQuestionsAnswers(int surveyID){
@@ -461,8 +423,93 @@ public class Survey_Db implements Db_Interface{
 		    return myLists;
 			
 		}
+	/* Returns an ArrayList of ArrayLists of all Survey questions plus the results for each answer.
+	 * 
+	 * Requirements: 4.4.0
+	 * */		
+	public ArrayList getSurveyQuestionsResults(int surveyID){
+		Connection c = null;
+	    Statement stmtQuestions , stmtAnswers, stmtCountAnswers, stmtTotalResponses;
+	    ResultSet rsQuestions = null;
+	    ResultSet rsAnswers = null;
+	    ResultSet rsCountAnswers = null;
+	    ResultSet rsTotalResponses = null;
+		ArrayList myLists = new ArrayList();
+		String myAnswer = null;
+		int percent = 0;
 		
-		
+	    try {
+		      Class.forName("org.sqlite.JDBC");
+		      c = DriverManager.getConnection("jdbc:sqlite:surveydatabase.db");
+		      stmtQuestions = c.createStatement();
+		      stmtAnswers = c.createStatement();
+		      stmtCountAnswers = c.createStatement();
+		      stmtTotalResponses = c.createStatement();
+		      
+		      //Get the Question ID and Question text
+		      rsQuestions = stmtQuestions.executeQuery( "SELECT Q_ID, QUESTION_TEXT FROM Survey_Question WHERE Survey_Question.FK_S_ID = '" + surveyID + "';");
+		      int questionscounter = 0;
+		      int questionId;
+		      String idStr;
+		      int counter = 0;
+		      while (rsQuestions.next()) {
+		    	 ArrayList tempArray = new ArrayList();
+		         questionId = rsQuestions.getInt("Q_ID");
+		         idStr = Integer.toString(questionId);
+		         String questionStr = rsQuestions.getString("QUESTION_TEXT");
+		         tempArray.add(questionStr);
+		            
+		         rsAnswers = stmtAnswers.executeQuery( "SELECT PA_ID, LETTER FROM Possible_Answers WHERE Possible_Answers.FK_Q_ID = '" + questionId + "';");
+		         rsTotalResponses = stmtTotalResponses.executeQuery("SELECT COUNT(*) FROM Answers WHERE FK_Q_ID = '" + questionId + "';");
+		         int numTotalResponses = rsTotalResponses.getInt(1);
+  			  	 
+
+		         
+				 while (rsAnswers.next()){
+				  	String letter = rsAnswers.getString("LETTER");
+				  	tempArray.add(letter);
+				  	int answerID = rsAnswers.getInt("PA_ID");
+				  	
+				  	
+				  	rsCountAnswers = stmtCountAnswers.executeQuery("SELECT COUNT(*) FROM Answers WHERE Answers.FK_PA_ID = '" + answerID + "';");
+				  					  	
+				  	int answerCount = rsCountAnswers.getInt(1);
+				  	int percentResults = (answerCount*100)/numTotalResponses;
+				  	System.out.println("Int numTotalResponses: " + numTotalResponses);
+				  	System.out.println("answerCount: " + answerCount);
+				  	System.out.println("Int Percent Results: " + percentResults);
+				  	
+				  	String strAnswerCount = Integer.toString(answerCount);
+				  	String strPercentResults = Integer.toString(percentResults);
+				  	System.out.println("str Percent Results: " + strPercentResults);
+				  	tempArray.add(strAnswerCount);
+				  	tempArray.add(strPercentResults);
+				 }
+				 tempArray.add(idStr);   
+		         questionscounter ++; 
+		         myLists.add(tempArray);   
+		      }     
+		      stmtQuestions.close();
+		      stmtAnswers.close();
+		      c.close();   
+		      
+		    } catch ( Exception e ) {
+		      System.err.println( e.getClass().getName() + ": " + e.getMessage() );
+		      JOptionPane.showMessageDialog(null, e.getClass().getName() + ": " + e.getMessage());
+		    } finally {
+		    	try{
+		    		  stmtQuestions = c.createStatement();
+		    		  stmtAnswers = c.createStatement();
+		    		  stmtQuestions.close();
+				      stmtAnswers.close();
+				      c.close();
+			    	} catch (Exception e) {
+			    		JOptionPane.showMessageDialog(null, e.getMessage());
+			    	}
+			    }
+		    return myLists;
+			
+		}
 
 	
 	/* Takes the name of the survey and returns the survey id from the database*/

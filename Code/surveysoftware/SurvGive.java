@@ -24,16 +24,20 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -46,13 +50,15 @@ public class SurvGive extends JFrame {
 	Survey_Actions mySurvey;
 	ArrayList allQuestions;
 	private JScrollPane scroller;
-	private JPanel panel;
+	private JPanel panel, headerPanel, bodyPanel, footerPanel;
+	private JPanel[] questionPanel;
+	private JPanel[] answerPanel;
+	private JLabel[] lblAnswer;
 	private JTextArea[] text;
 	private JTextField[] answer;
 	private JLabel survey;
 	private JButton done, done2;
 	int numQuestions;
-	int y = 20;
 	ArrayList<String> oneQuesAns;
 
 	public SurvGive(String s) {
@@ -63,38 +69,49 @@ public class SurvGive extends JFrame {
 	
 	public void initGUI()
 	{	    
+	    headerPanel = new JPanel();
+	    bodyPanel = new JPanel();
+	    footerPanel = new JPanel();
+	    
+	    done = new JButton("Done");
+	    done2 = new JButton("Done");
+	    headerPanel.add(done);
+	    footerPanel.add(done2);
+	    done.addActionListener(new ButtonListener());
+	    done2.addActionListener(new ButtonListener());
+
+	    setLayout(new BorderLayout());
+	    setTitle(surveyName);  
+	    setSize(600,450);
+	    scroller = new JScrollPane(bodyPanel);
+	  //  scroller.setAutoscrolls(false);
+	    
+	    add(headerPanel,BorderLayout.NORTH);
+	    add(scroller,BorderLayout.CENTER);
+	    add(footerPanel,BorderLayout.SOUTH);
+	 //   bodyPanel.setBounds(0,0, 600, 500);
+//	    bodyPanel.setLayout(new GridLayout(32, 1,10,10));
+	    bodyPanel.setLayout(new GridLayout(0,1));
+	    setVisible(true);
+		
 		numQuestions = mySurvey.getNumberOfQuestions(mySurvey.getSurveyId(surveyName));
 		String postText = "";
 		//Get questions
 		allQuestions = mySurvey.getSurveyQuestionsAnswers(surveyName);
-		
-		
-		setSize(600,700);
-		//setBounds(0,0, 600, 700);
-		panel = new JPanel();
-		panel.setLayout(new GridLayout(32, 1,10,10));
-		setVisible(true);
-//		panel.setPreferredSize(new Dimension(600, 750));
-		scroller = new JScrollPane(panel);
-		done = new JButton("Done");
-		done.setBounds(254, 25, 138, 23);
 		text = new JTextArea[numQuestions];
 		answer = new JTextField[numQuestions];
-		survey = new JLabel(surveyName);
-		
-	//	survey.setBounds(10, 25, 138, 23);
-	//	panel.add(survey);
-		
-		
-		done.addActionListener(new ButtonListener());
-		getContentPane().add(scroller, BorderLayout.CENTER);
-		panel.add(done);
+	    questionPanel = new JPanel[numQuestions];
+	    answerPanel = new JPanel[numQuestions];
+	    lblAnswer = new JLabel[numQuestions];
 		
 		for(int i = 0; i < numQuestions; i++){
-			
+			questionPanel[i] = new JPanel();
+			answerPanel[i] = new JPanel();
+			lblAnswer[i] = new JLabel("Answer");
+
 			/*Get the Text to post */
 			oneQuesAns = (ArrayList) allQuestions.get(i);
-			//System.out.println(oneQuesAns);
+			
 			postText = oneQuesAns.get(0) + "\n";
 			for (int j = 1; j < oneQuesAns.size() - 1; j++) {
 				if (j % 2 == 0)
@@ -102,32 +119,23 @@ public class SurvGive extends JFrame {
 				else
 					postText = postText + "     " + oneQuesAns.get(j) + "   ";
 			}
-
-			y += 40;
+			
+			bodyPanel.add(questionPanel[i]);
+			bodyPanel.add(answerPanel[i]);
 			text[i] = new JTextArea(postText);
 			text[i].setLineWrap(true);
 			text[i].setVisible(true);
-			text[i].setBounds(10, y, 500, 100);
+			text[i].setBounds(1, 1, 500, 100);
 			answer[i] = new JTextField();
-
-			y += 120;
-			answer[i].setBounds(10, y, 30, 30);
-			text[i].setLayout(new FlowLayout());
-			answer[i].setLayout(new FlowLayout());
 			text[i].setEditable(false);
 			answer[i].setEditable(true);
 			text[i].setColumns(1);
-			panel.add(text[i]);
-			panel.add(answer[i]);
+			answer[i].setColumns(1);
+			questionPanel[i].add(text[i]);
+			answerPanel[i].add(lblAnswer[i]);
+			answerPanel[i].add(answer[i]);
 		}
-		done2 = new JButton("Done");
-		done2.setBounds(254, y + 30, 138, 23);
-		done2.addActionListener(new ButtonListener());
-		panel.add(done2);
-		scroller = new JScrollPane(panel);
-		scroller.setPreferredSize(new Dimension(600, 700));
-		getContentPane().add(scroller, BorderLayout.CENTER);
-
+		
 	}// END INITGUI
 
 	public class ButtonListener implements ActionListener {

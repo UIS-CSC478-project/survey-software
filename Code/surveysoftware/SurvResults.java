@@ -40,44 +40,6 @@ public class SurvResults extends JFrame {
 	}
 	
 	public void initGui(){
-//		System.out.println(" in initGui");
-//	    setLayout(new BorderLayout());
-//	    
-//		setSize(600,700);
-//		panel = new JPanel();
-//		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-//
-//		setVisible(true);
-//		
-//		headerPanel = new JPanel();
-//		headerPanel.setLayout(null);
-//		setVisible(true);
-//
-//		bodyPanel = new JPanel();
-//		bodyPanel.setLayout(new GridLayout(32, 1,10,10));
-//		setVisible(true);
-//		scroller = new JScrollPane(bodyPanel);
-//		
-//		panel.add(headerPanel);
-//		panel.add(bodyPanel);
-////		headerPanel.setVisible(true);
-////		bodyPanel.setVisible(true);
-//		
-//		done = new JButton("Done");
-//		done.setBounds(254, 25, 138, 23);
-//		done.addActionListener(new ButtonListener());
-//		headerPanel.add(done);
-//		headerPanel.add(new JLabel(surveyName));
-//
-////		getContentPane().add(headerPanel);
-////		getContentPane().add(scroller);
-//
-//	    add(headerPanel,BorderLayout.NORTH);
-//	 //   add(bodyPanel,BorderLayout.CENTER);
-//	//  headerPanel.setBounds(0,0,600,100);
-//	 //   bodyPanel.setBounds(0,100, 600, 500);
-//	    setVisible(true);
-		
 	    headerPanel = new JPanel();
 	    bodyPanel = new JPanel();
 	    footerPanel = new JPanel();
@@ -89,9 +51,8 @@ public class SurvResults extends JFrame {
 	    done.addActionListener(new ButtonListener());
 	    done2.addActionListener(new ButtonListener());
 
-
-
 	    setLayout(new BorderLayout());
+	    setTitle(surveyName);
 	    setSize(600,450);
 	    scroller = new JScrollPane(bodyPanel);
 	    
@@ -102,26 +63,29 @@ public class SurvResults extends JFrame {
 	    bodyPanel.setLayout(new GridLayout(32, 1,10,10));
 	    setVisible(true);
 		
-		
-		
-		
-		
 		int numQuestions = mySurvey.getNumberOfQuestions(mySurvey.getSurveyId(surveyName));
 		String postText = "";
 		text = new JTextArea[numQuestions];
 		
 		int i;
 		//Get questions
-		ArrayList allQuestions = mySurvey.getSurveyQuestionsAnswers(surveyName);
+		ArrayList allResults = mySurvey.getSurveyResults(surveyName);
 		
 		for(i = 0; i < numQuestions; i++){
-			ArrayList <String> temp = (ArrayList) allQuestions.get(i);
+			ArrayList <String> temp = (ArrayList) allResults.get(i);
 			postText = temp.get(0) + "\n";
 			for(int j = 1; j < temp.size()-1; j++){
-				if (j%2 == 0)
-					postText = postText + temp.get(j) + "\n";
-				else
-					postText = postText + "     " + temp.get(j) + "   ";
+				if (j%3 == 0){//This posts the percent
+					postText = postText + temp.get(j) + "   percent\n";
+				}
+				else if (j%3 == 1){   // This posts the letter
+					postText = postText + "   " + temp.get(j) + "\t";
+				}
+				else if (j%3 == 2){     //This posts the number of people who chose that answer.
+					postText = postText + temp.get(j) + "\t";
+				}
+					
+					
 			}
 			
 			
